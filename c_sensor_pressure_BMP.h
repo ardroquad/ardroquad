@@ -4,53 +4,68 @@
 #include <Wire.h>
 #include "c_sensor_pressure.h"
 
-#define c_sensor_pressure_BMP_sensor_id "BMP085/BMP180"
-
-#define c_sensor_pressure_BMP_device_address 0x77
-#define c_sensor_pressure_BMP_buffer_size 3
-#define c_sensor_pressure_BMP_bytes_CC 2
-
-#define c_sesnsor_pressure_BMP_CC_AC1 0xAA
-#define c_sesnsor_pressure_BMP_CC_AC2 0xAC
-#define c_sesnsor_pressure_BMP_CC_AC3 0xAE
-#define c_sesnsor_pressure_BMP_CC_AC4 0xB0
-#define c_sesnsor_pressure_BMP_CC_AC5 0xB2
-#define c_sesnsor_pressure_BMP_CC_AC6 0xB4
-#define c_sesnsor_pressure_BMP_CC_B1  0xB6
-#define c_sesnsor_pressure_BMP_CC_B2  0xB8
-#define c_sesnsor_pressure_BMP_CC_MB  0xBA
-#define c_sesnsor_pressure_BMP_CC_MC  0xBC
-#define c_sesnsor_pressure_BMP_CC_MD  0xBE
-
-class c_sensor_pressure_BMP: 
-public c_sensor_pressure {
-public:
-  struct {
-    short ac1;
-    short ac2;
-    short ac3;
-    unsigned short ac4;
-    unsigned short ac5;
-    unsigned short ac6;
-    short b1;
-    short b2;
-    short mb;
-    short mc;
-    short md;
-  } _cc;
-  unsigned char _device_address;
-  uint8_t _buffer[c_sensor_pressure_BMP_buffer_size];
-  void read_eeprom(const uint8_t address, const unsigned short bytes, uint8_t buffer[]);
-  void readCC(const uint8_t address, short& cc);
-  void readCC(const uint8_t address, unsigned short& cc);
-  void readAllCC();
-public:
-  c_sensor_pressure_BMP();
-  virtual void initialize();
-  virtual String sensor_id();
-  virtual String diagnostic_data();
-};
+namespace sensors {
+  namespace pressure {
+    class c_BMP: 
+    public c_pressure {
+    private:
+      static const uint8_t __i2c_address = 0x77;
+      static const uint8_t __buffer_size = 3;
+      static const uint8_t __cca_ac1 = 0xAA;
+      static const uint8_t __cca_ac2 = 0xAC;
+      static const uint8_t __cca_ac3 = 0xAE;
+      static const uint8_t __cca_ac4 = 0xB0;
+      static const uint8_t __cca_ac5 = 0xB2;
+      static const uint8_t __cca_ac6 = 0xB4;
+      static const uint8_t __cca_b1 = 0xB6;
+      static const uint8_t __cca_b2 = 0xB8;
+      static const uint8_t __cca_mb = 0xBA;
+      static const uint8_t __cca_mc = 0xBC;
+      static const uint8_t __cca_md = 0xBE;
+      static const uint8_t __control_address = 0xF4;
+      static const uint8_t __address_UT = 0xF6;
+      static const uint8_t __command_read_UT = 0x2E;
+      static const uint8_t __delay_read_UT = 5;
+      static const uint8_t __address_UP = 0xF6;
+      static const uint8_t __command_read_UP = 0x34;
+      static const uint8_t __delay_read_UP = 5;
+      static const uint16_t __delay_temperature_update = 1000;
+      struct {
+        int32_t ac1;
+        int32_t ac2;
+        int32_t ac3;
+        uint32_t ac4;
+        uint32_t ac5;
+        uint32_t ac6;
+        int32_t b1;
+        int32_t b2;
+        int32_t mb;
+        int32_t mc;
+        int32_t md;
+      } _cc;
+      uint8_t _i2c_address;
+      uint8_t _buffer[__buffer_size];
+      int32_t _UT;
+      int32_t _b5;
+      int32_t _temperature;
+      int32_t _UP;
+      int32_t _pressure;
+      void read_data(const uint8_t address, const uint8_t bytes, uint8_t buffer[]);
+      void read_16(const uint8_t address, int32_t& data);
+      void read_19(const uint8_t address, int32_t& data);
+      void read_16(const uint8_t address, uint32_t& data);
+      void read_cc();
+      void write_8(const uint8_t address, const uint8_t data);
+      void read_temperature();
+      void read_pressure();
+    public:
+      c_BMP();
+      virtual void initialize();
+      virtual String diagnostic_data();
+      void force_temperature_update();
+      int32_t get_temperature();
+    };
+  }
+}
 
 #endif
-
-

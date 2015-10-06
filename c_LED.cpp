@@ -1,30 +1,33 @@
 #include "c_LED.h"
 
-c_LED::c_LED(const unsigned char pin, const bool state, const unsigned char brightness): 
+using namespace controls;
+
+c_LED::c_LED(const uint8_t pin, const bool state, const uint8_t brightness): 
 _pin(pin), _state(state), _brightness(brightness) {
   initialize();
 };
 
-c_LED::c_LED(const unsigned char pin, const bool state):
-_pin(pin), _state(state), _brightness(C_LED_BRIGHTNESS_MAX) {
+c_LED::c_LED(const uint8_t pin, const bool state):
+_pin(pin), _state(state), _brightness(__max_brightness) {
   initialize();
 };
 
-c_LED::c_LED(const unsigned char pin):
-_pin(pin), _state(C_LED_STATE_ON), _brightness(C_LED_BRIGHTNESS_MAX) {
+c_LED::c_LED(const uint8_t pin):
+_pin(pin), _state(__state_on), _brightness(__max_brightness) {
   initialize();
 };
 
 c_LED::c_LED():
-_pin(C_LED_PIN), _state(C_LED_STATE_ON), _brightness(C_LED_BRIGHTNESS_MAX) {
+_pin(__pin), _state(__state_on), _brightness(__max_brightness) {
   initialize();
 };
+
 void c_LED::initialize() {
   pinMode(_pin, OUTPUT);
 };
 
 const void c_LED::update_pin() {
-  if (C_LED_STATE_ON == _state) {
+  if (__state_on == _state) {
     analogWrite(_pin, _brightness);
   } 
   else {
@@ -38,11 +41,11 @@ void c_LED::brightness(const unsigned char brightness) {
 };
 
 void c_LED::on() {
-  _state = C_LED_STATE_ON;
+  _state = __state_on;
   update_pin();
 };
 
 void c_LED::off() {
-  _state = C_LED_STATE_OFF;
+  _state = __state_off;
   update_pin();
 };

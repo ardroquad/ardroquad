@@ -3,25 +3,24 @@
 #include "c_LED.h"
 #include "c_sensor_pressure_BMP.h"
 
-c_LED LED;
-c_sensor_pressure_BMP BMP;
+sensors::pressure::c_BMP pressure;
+controls::c_LED LED;
 
 void setup() {
   Serial.begin(115200);
   Wire.begin(); 
-  delay(1000);
-  BMP.initialize();
+  delay(5000);
+  pressure.initialize();
 }
 
 void loop() {
-  Serial.println(BMP.sensor_id());
-  Serial.println(BMP.diagnostic_data());
-
   while (true) {
+    Serial.println(pressure.diagnostic_data());
+    pressure.force_temperature_update();
     LED.on();
-    delay(200);
+    delay(500);
     LED.off();
-    delay(200);
+    delay(500);
   }
 }
 

@@ -3,11 +3,17 @@
 
 #include "c_sensor.h"
 
-class c_sensor_pressure: 
-public c_sensor {
-private:
-public:
-};
+namespace sensors {
+  namespace pressure {
+    class c_pressure: 
+    public c_sensor {
+    private:
+    public:
+    };
+  }
+}
 
 #endif
+
+
 
