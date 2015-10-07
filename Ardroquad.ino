@@ -5,19 +5,19 @@
 
 #define _DEBUG_
 
-sensors::pressure::BMP180 pressure;
+sensors::barometer::BMP180 barometer;
 controls::LED LED;
 
 void setup() {
   Serial.begin(115200);
   Wire.begin(); 
   delay(1000);
-  pressure.initialize();
+  barometer.initialize();
 }
 
 void loop() {
-  Serial.println(pressure.diagnostic_data());
-  pressure.get_pressure();
+  Serial.println(barometer.diagnostic_data());
+  barometer.get_pressure();
   delay(1000);
 }
 

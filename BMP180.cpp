@@ -1,8 +1,8 @@
 #include <Arduino.h>
 #include "BMP180.h"
-#include "Wire.h"
+#include "I2C.h"
 
-using namespace sensors::pressure;
+namespace sensors { namespace barometer {
 
 const uint8_t BMP180::__UP_delays_read[4] = {
   __UP.delay_ultra_low_power,
@@ -37,26 +37,27 @@ void BMP180::initialize() {
 
 String BMP180::diagnostic_data() {
   String s;
-  s = "BMP085/BMP180:"; s += "\r\n";
+  s = "BMP180:"; s += "\r\n";
 #ifdef _DEBUG_
   s += "  Calibrating coefficients:"; s += "\r\n";
-  s += "    ac1: "; s += _cc.ac1; s += "\r\n";
-  s += "    ac2: "; s += _cc.ac2; s += "\r\n";
-  s += "    ac3: "; s += _cc.ac3; s += "\r\n";
-  s += "    ac4: "; s += _cc.ac4; s += "\r\n";
-  s += "    ac5: "; s += _cc.ac5; s += "\r\n";
-  s += "    ac6: "; s += _cc.ac6; s += "\r\n";
-  s += "    b1:  "; s += _cc.b1; s += "\r\n";
-  s += "    b2:  "; s += _cc.b2; s += "\r\n";
-  s += "    mb:  "; s += _cc.mb; s += "\r\n";
-  s += "    mc:  "; s += _cc.mc; s += "\r\n";
-  s += "    md:  "; s += _cc.md; s += "\r\n";
+  s += "ac1: "; s += _cc.ac1; s += "\r\n";
+  s += "ac2: "; s += _cc.ac2; s += "\r\n";
+  s += "ac3: "; s += _cc.ac3; s += "\r\n";
+  s += "ac4: "; s += _cc.ac4; s += "\r\n";
+  s += "ac5: "; s += _cc.ac5; s += "\r\n";
+  s += "ac6: "; s += _cc.ac6; s += "\r\n";
+  s += "b1:  "; s += _cc.b1; s += "\r\n";
+  s += "b2:  "; s += _cc.b2; s += "\r\n";
+  s += "mb:  "; s += _cc.mb; s += "\r\n";
+  s += "mc:  "; s += _cc.mc; s += "\r\n";
+  s += "md:  "; s += _cc.md; s += "\r\n";
 #endif
   s += "  Temperature: "; s += "\r\n";
 #ifdef _DEBUG_
   s += "    raw: "; s += _temperature.raw; s += "\r\n";
 #endif
-  s += "    celsius: "; s += _temperature.celsius / 10; s += "."; s += _temperature.celsius % 10; s += "\r\n";
+  s += "    celsius: "; s += _temperature.celsius / 10; s += "."; 
+  s += _temperature.celsius % 10; s += "\r\n";
   s += "  Pressure: "; s += "\r\n";
 #ifdef _DEBUG_
   s += "    raw: "; s += _pressure.raw; s += "\r\n";
@@ -67,11 +68,11 @@ String BMP180::diagnostic_data() {
 }
 
 void BMP180::read_data(const uint8_t address, const uint8_t bytes, uint8_t buffer[]) {
-  Wire.beginTransmission(__i2c_address);
+  Wire.beginTransmission(__I2C_address);
   Wire.write(address);
   Wire.endTransmission();
-  Wire.beginTransmission(__i2c_address);
-  Wire.requestFrom(__i2c_address, bytes);
+  Wire.beginTransmission(__I2C_address);
+  Wire.requestFrom(__I2C_address, bytes);
   for (uint8_t i = 0; Wire.available() && i < bytes; ++i) {
     buffer[i] = Wire.read();
   }
@@ -109,15 +110,8 @@ void BMP180::read_cc() {
   read_16(__cca_md, _cc.md);
 }
 
-void BMP180::write_8(const uint8_t address, const uint8_t data) {
-  Wire.beginTransmission(__i2c_address);
-  Wire.write(address);
-  Wire.write(data);
-  Wire.endTransmission();
-}
-
 void BMP180::request_temperature() {
-  write_8(__control_address, __UT.command_read);
+  I2C::write_register(__I2C_address, __control_address, __UT.command_read);
   _temperature.request_millis = millis();
   _reading_parameter = temperature;
 }
@@ -132,7 +126,7 @@ void BMP180::read_temperature() {
 }
 
 void BMP180::request_pressure() {
-  write_8(__control_address, __UP.command_read + (_oss << 6));
+  I2C::write_register(__I2C_address, __control_address, __UP.command_read + (_oss << 6));
   _pressure.request_millis = millis();
   _reading_parameter = pressure;
 }
@@ -161,18 +155,18 @@ void BMP180::read_pressure() {
 int32_t BMP180::get_pressure() {
   if (_initialized) {
     switch (_reading_parameter) {
-      case temperature:
-        if (millis() >= _temperature.request_millis + __UT.delay_read) {
-          read_temperature();
-          request_pressure();
-        }
+    case temperature:
+      if (millis() >= _temperature.request_millis + __UT.delay_read) {
+        read_temperature();
+        request_pressure();
+      }
       break;
-      case pressure:
-        if (millis() >= _pressure.request_millis + __UP_delays_read[_oss]) {
-          read_pressure();
-        }
+    case pressure:
+      if (millis() >= _pressure.request_millis + __UP_delays_read[_oss]) {
+        read_pressure();
+      }
       break;
-      case none:
+    case none:
       break;
     }
     if (none == _reading_parameter) {
@@ -186,3 +180,6 @@ int32_t BMP180::get_pressure() {
   }
   return _pressure.pascals;
 }
+
+}}
+
