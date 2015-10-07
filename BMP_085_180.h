@@ -53,8 +53,8 @@ namespace sensors {
       int32_t _pressure;
       void read_data(const uint8_t address, const uint8_t bytes, uint8_t buffer[]);
       void read_16(const uint8_t address, int32_t& data);
-      void read_19(const uint8_t address, int32_t& data);
       void read_16(const uint8_t address, uint32_t& data);
+      void read_19(const uint8_t address, int32_t& data);
       void read_cc();
       void write_8(const uint8_t address, const uint8_t data);
       void read_temperature();
@@ -64,7 +64,8 @@ namespace sensors {
       virtual void initialize();
       virtual String diagnostic_data();
       void force_temperature_update();
-      int32_t get_temperature();
+      virtual int32_t get_temperature();
+      virtual int32_t get_pressure();
     };
   }
 }

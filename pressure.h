@@ -9,6 +9,8 @@ namespace sensors {
     public sensor {
     private:
     public:
+      virtual int32_t get_temperature() = 0;
+      virtual int32_t get_pressure() = 0;
     };
   }
 }

@@ -18,6 +18,31 @@ void BMP_085_180::initialize() {
   read_pressure();
 }
 
+String BMP_085_180::diagnostic_data() {
+  String s;
+  s = "BMP085/BMP180:"; s += "\r\n";
+  s += "  Calibrating coefficients:"; s += "\r\n";
+  s += "    ac1: "; s += _cc.ac1; s += "\r\n";
+  s += "    ac2: "; s += _cc.ac2; s += "\r\n";
+  s += "    ac3: "; s += _cc.ac3; s += "\r\n";
+  s += "    ac4: "; s += _cc.ac4; s += "\r\n";
+  s += "    ac5: "; s += _cc.ac5; s += "\r\n";
+  s += "    ac6: "; s += _cc.ac6; s += "\r\n";
+  s += "    b1:  "; s += _cc.b1; s += "\r\n";
+  s += "    b2:  "; s += _cc.b2; s += "\r\n";
+  s += "    mb:  "; s += _cc.mb; s += "\r\n";
+  s += "    mc:  "; s += _cc.mc; s += "\r\n";
+  s += "    md:  "; s += _cc.md; s += "\r\n";
+  s += "  Temperature: "; s += "\r\n";
+  s += "    uncompensated: "; s += _UT; s += "\r\n";
+  s += "    celsius: "; s += _temperature / 10; s += "."; s += _temperature % 10; s += "\r\n";
+  s += "  Pressure: "; s += "\r\n";
+  s += "    uncompensated: "; s += _UP; s += "\r\n";
+  s += "    pascals: "; s += _pressure; s += "\r\n";
+  s += "    mm Hg: "; s += (long)((float)_pressure / 133.3); s += "\r\n";
+  return s;
+}
+
 void BMP_085_180::read_data(const uint8_t address, const uint8_t bytes, uint8_t buffer[]) {
   Wire.beginTransmission(_i2c_address);
   Wire.write(address);
@@ -31,48 +56,21 @@ void BMP_085_180::read_data(const uint8_t address, const uint8_t bytes, uint8_t 
   Wire.endTransmission();
 }
 
-String BMP_085_180::diagnostic_data() {
-  String s;
-  s = "BMP085/BMP180:"; s += "\r\n";
-  /*
-  s += "  Calibrating coefficients:"; s += "\r\n";
-  s += "    ac1: "; s += _cc.ac1; s += "\r\n";
-  s += "    ac2: "; s += _cc.ac2; s += "\r\n";
-  s += "    ac3: "; s += _cc.ac3; s += "\r\n";
-  s += "    ac4: "; s += _cc.ac4; s += "\r\n";
-  s += "    ac5: "; s += _cc.ac5; s += "\r\n";
-  s += "    ac6: "; s += _cc.ac6; s += "\r\n";
-  s += "    b1:  "; s += _cc.b1; s += "\r\n";
-  s += "    b2:  "; s += _cc.b2; s += "\r\n";
-  s += "    mb:  "; s += _cc.mb; s += "\r\n";
-  s += "    mc:  "; s += _cc.mc; s += "\r\n";
-  s += "    md:  "; s += _cc.md; s += "\r\n";
-  */
-  s += "  Temperature: "; s += "\r\n";
-  s += "    uncompensated: "; s += _UT; s += "\r\n";
-  s += "    celsius: "; s += _temperature / 10; s += "."; s += _temperature % 10; s += "\r\n";
-  s += "  Pressure: "; s += "\r\n";
-  s += "    uncompensated: "; s += _UP; s += "\r\n";
-  s += "    pascals: "; s += _pressure; s += "\r\n";
-  s += "    mm Hg: "; s += (long)((float)_pressure / 133.3); s += "\r\n";
-  return s;
-}
-
 void BMP_085_180::read_16(const uint8_t address, int32_t& data) {
   read_data(address, 2, _buffer);
   int16_t data_16 = (int16_t)_buffer[0] << 8 | (int16_t)_buffer[1];
   data = data_16;
 }
 
-void BMP_085_180::read_19(const uint8_t address, int32_t& data) {
-  read_data(address, 3, _buffer);
-  data = (int32_t)_buffer[0] << 16 | (int32_t)_buffer[1] << 8 | (int32_t)_buffer[2];
-}
-
 void BMP_085_180::read_16(const uint8_t address, uint32_t& data) {
   read_data(address, 2, _buffer);
   uint16_t data_16 = (uint16_t)_buffer[0] << 8 | (uint16_t)_buffer[1];
   data = data_16;
+}
+
+void BMP_085_180::read_19(const uint8_t address, int32_t& data) {
+  read_data(address, 3, _buffer);
+  data = (int32_t)_buffer[0] << 16 | (int32_t)_buffer[1] << 8 | (int32_t)_buffer[2];
 }
 
 void BMP_085_180::read_cc() {
@@ -130,9 +128,12 @@ void BMP_085_180::read_pressure() {
 
 void BMP_085_180::force_temperature_update() {
   read_temperature();
-  read_pressure();
 }
 
 int32_t BMP_085_180::get_temperature() {
   return _temperature;
+}
+
+int32_t BMP_085_180::get_pressure() {
+  return _pressure;
 }
