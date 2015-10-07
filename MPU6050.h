@@ -1,13 +1,13 @@
-#ifndef _BMP180_h_
-#define _BMP180_h_
+#ifndef _MPU6050_h_
+#define _MPU6050_h_
 
 #include <Arduino.h>
-#include "barometer.h"
+#include "accelerometer.h"
 
 namespace sensors {
-  namespace barometer {
+  namespace pressure {
     class BMP180: 
-    public baroemeter {
+    public pressure {
     private:
       static const uint8_t __i2c_address = 0x77;
       static const uint8_t __buffer_size = 3;

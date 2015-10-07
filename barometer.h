@@ -4,8 +4,8 @@
 #include "sensor.h"
 
 namespace sensors {
-  namespace pressure {
-    class pressure: 
+  namespace barometer {
+    class barometer: 
     public sensor {
     private:
     public:

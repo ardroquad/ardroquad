@@ -1,5 +1,6 @@
 #include <Arduino.h>
 #include "BMP180.h"
+#include "Wire.h"
 
 using namespace sensors::pressure;
 
@@ -11,7 +12,6 @@ const uint8_t BMP180::__UP_delays_read[4] = {
 };
 
 BMP180::BMP180() {
-  _i2c_address = __i2c_address;
   _temperature.raw = 0;
   _temperature.celsius = 0;
   _temperature.b5 = 0;
@@ -67,12 +67,11 @@ String BMP180::diagnostic_data() {
 }
 
 void BMP180::read_data(const uint8_t address, const uint8_t bytes, uint8_t buffer[]) {
-  Wire.beginTransmission(_i2c_address);
+  Wire.beginTransmission(__i2c_address);
   Wire.write(address);
   Wire.endTransmission();
-  
-  Wire.beginTransmission(_i2c_address);
-  Wire.requestFrom(_i2c_address, bytes);
+  Wire.beginTransmission(__i2c_address);
+  Wire.requestFrom(__i2c_address, bytes);
   for (uint8_t i = 0; Wire.available() && i < bytes; ++i) {
     buffer[i] = Wire.read();
   }
@@ -111,7 +110,7 @@ void BMP180::read_cc() {
 }
 
 void BMP180::write_8(const uint8_t address, const uint8_t data) {
-  Wire.beginTransmission(_i2c_address);
+  Wire.beginTransmission(__i2c_address);
   Wire.write(address);
   Wire.write(data);
   Wire.endTransmission();
