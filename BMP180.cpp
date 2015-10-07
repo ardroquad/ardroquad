@@ -1,35 +1,41 @@
 #include <Arduino.h>
-#include "BMP_085_180.h"
+#include "BMP180.h"
 
 using namespace sensors::pressure;
 
-const uint8_t BMP_085_180::__UP_read_delays[4] = {
+const uint8_t BMP180::__UP_delays_read[4] = {
   __UP.delay_ultra_low_power,
   __UP.delay_standard,
   __UP.delay_high_resolution,
   __UP.delay_ultra_high_resolution
 };
 
-BMP_085_180::BMP_085_180() {
+BMP180::BMP180() {
   _i2c_address = __i2c_address;
   _temperature.raw = 0;
   _temperature.celsius = 0;
   _temperature.b5 = 0;
-  _temperature.last_read_millis = 0;
+  _temperature.request_millis = 0;
   _pressure.raw = 0;
   _pressure.pascals = 0;
   _pressure.request_millis = 0;
   _oss = __oss;
   _initialized = false;
+  _reading_parameter = none;
 };
 
-void BMP_085_180::initialize() {
+void BMP180::initialize() {
   read_cc();
+  request_temperature();
+  delay(__UT.delay_read);
+  read_temperature();
+  request_pressure();
+  delay(__UP_delays_read[_oss]);
   read_pressure();
   _initialized = true;
 }
 
-String BMP_085_180::diagnostic_data() {
+String BMP180::diagnostic_data() {
   String s;
   s = "BMP085/BMP180:"; s += "\r\n";
 #ifdef _DEBUG_
@@ -60,7 +66,7 @@ String BMP_085_180::diagnostic_data() {
   return s;
 }
 
-void BMP_085_180::read_data(const uint8_t address, const uint8_t bytes, uint8_t buffer[]) {
+void BMP180::read_data(const uint8_t address, const uint8_t bytes, uint8_t buffer[]) {
   Wire.beginTransmission(_i2c_address);
   Wire.write(address);
   Wire.endTransmission();
@@ -73,24 +79,24 @@ void BMP_085_180::read_data(const uint8_t address, const uint8_t bytes, uint8_t 
   Wire.endTransmission();
 }
 
-void BMP_085_180::read_16(const uint8_t address, int32_t& data) {
+void BMP180::read_16(const uint8_t address, int32_t& data) {
   read_data(address, 2, _buffer);
   int16_t data_16 = (int16_t)_buffer[0] << 8 | (int16_t)_buffer[1];
   data = data_16;
 }
 
-void BMP_085_180::read_16(const uint8_t address, uint32_t& data) {
+void BMP180::read_16(const uint8_t address, uint32_t& data) {
   read_data(address, 2, _buffer);
   uint16_t data_16 = (uint16_t)_buffer[0] << 8 | (uint16_t)_buffer[1];
   data = data_16;
 }
 
-void BMP_085_180::read_19(const uint8_t address, int32_t& data) {
+void BMP180::read_19(const uint8_t address, int32_t& data) {
   read_data(address, 3, _buffer);
   data = (int32_t)_buffer[0] << 16 | (int32_t)_buffer[1] << 8 | (int32_t)_buffer[2];
 }
 
-void BMP_085_180::read_cc() {
+void BMP180::read_cc() {
   read_16(__cca_ac1, _cc.ac1);
   read_16(__cca_ac2, _cc.ac2);
   read_16(__cca_ac3, _cc.ac3);
@@ -104,35 +110,35 @@ void BMP_085_180::read_cc() {
   read_16(__cca_md, _cc.md);
 }
 
-void BMP_085_180::write_8(const uint8_t address, const uint8_t data) {
+void BMP180::write_8(const uint8_t address, const uint8_t data) {
   Wire.beginTransmission(_i2c_address);
   Wire.write(address);
   Wire.write(data);
   Wire.endTransmission();
 }
 
-void BMP_085_180::read_temperature() {
+void BMP180::request_temperature() {
   write_8(__control_address, __UT.command_read);
-  delay(__UT.delay_read);
+  _temperature.request_millis = millis();
+  _reading_parameter = temperature;
+}
+
+void BMP180::read_temperature() {
   read_16(__UT.address, _temperature.raw);
   int32_t x1 = (_temperature.raw - _cc.ac6) * _cc.ac5 / 32768;
   int32_t x2 = _cc.mc * 2048 / (x1 + _cc.md);
   _temperature.b5 = x1 + x2;
   _temperature.celsius = (_temperature.b5 + 8) / 16;
-  _temperature.last_read_millis = millis();
+  _reading_parameter = none;
 }
 
-void BMP_085_180::request_pressure() {
+void BMP180::request_pressure() {
   write_8(__control_address, __UP.command_read + (_oss << 6));
   _pressure.request_millis = millis();
+  _reading_parameter = pressure;
 }
 
-void BMP_085_180::read_pressure() {
-  if (0 == _pressure.raw) {
-    read_temperature();
-    request_pressure();
-    delay(__UP_read_delays[_oss]);
-  }
+void BMP180::read_pressure() {
   read_19(__UP.address, _pressure.raw);
   _pressure.raw >>= 8 - _oss;
   int32_t b6 = _temperature.b5 - 4000;
@@ -150,15 +156,34 @@ void BMP_085_180::read_pressure() {
   x1 = (x1 * 3038) / 65536;
   x2 = (-7357 * _pressure.pascals) / 65536;
   _pressure.pascals = _pressure.pascals + (x1 + x2 + 3791) / 16;
-  if (millis() >= _temperature.last_read_millis + __UT.delay_refresh) {
-    read_temperature();
-  }
-  request_pressure();
+  _reading_parameter = none;
 }
 
-int32_t BMP_085_180::get_pressure() {
-  if (_initialized && millis() >= _pressure.request_millis + __UP_read_delays[_oss]) {
-    read_pressure();
+int32_t BMP180::get_pressure() {
+  if (_initialized) {
+    switch (_reading_parameter) {
+      case temperature:
+        if (millis() >= _temperature.request_millis + __UT.delay_read) {
+          read_temperature();
+          request_pressure();
+        }
+      break;
+      case pressure:
+        if (millis() >= _pressure.request_millis + __UP_delays_read[_oss]) {
+          read_pressure();
+        }
+      break;
+      case none:
+      break;
+    }
+    if (none == _reading_parameter) {
+      if (millis() >= _temperature.request_millis + __UT.delay_refresh) {
+        request_temperature();
+      }
+      else {
+        request_pressure();
+      }
+    }
   }
   return _pressure.pascals;
 }

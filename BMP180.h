@@ -1,5 +1,5 @@
-#ifndef _BMP_085_180_h_
-#define _BMP_085_180_h_
+#ifndef _BMP180_h_
+#define _BMP180_h_
 
 #include <Arduino.h>
 #include <Wire.h>
@@ -7,7 +7,7 @@
 
 namespace sensors {
   namespace pressure {
-    class BMP_085_180: 
+    class BMP180: 
     public pressure {
     private:
       static const uint8_t __i2c_address = 0x77;
@@ -38,7 +38,7 @@ namespace sensors {
         static const uint8_t delay_high_resolution = 15;
         static const uint8_t delay_ultra_high_resolution = 27;
       } __UP;
-      static const uint8_t __UP_read_delays[4];
+      static const uint8_t __UP_delays_read[4];
       enum osses {
         ultra_low_power = 0,
         standard = 1,
@@ -65,7 +65,7 @@ namespace sensors {
         int32_t raw;
         int32_t celsius;
         int32_t b5;
-        uint32_t last_read_millis;
+        uint32_t request_millis;
       } _temperature;
       struct {
         int32_t raw;
@@ -73,17 +73,23 @@ namespace sensors {
         uint32_t request_millis;
       } _pressure;
       bool _initialized;
+      enum {
+        none,
+        temperature,
+        pressure
+      } _reading_parameter;
       void read_data(const uint8_t address, const uint8_t bytes, uint8_t buffer[]);
       void read_16(const uint8_t address, int32_t& data);
       void read_16(const uint8_t address, uint32_t& data);
       void read_19(const uint8_t address, int32_t& data);
       void read_cc();
       void write_8(const uint8_t address, const uint8_t data);
+      void request_temperature();
       void read_temperature();
       void request_pressure();
       void read_pressure();
     public:
-      BMP_085_180();
+      BMP180();
       virtual void initialize();
       virtual String diagnostic_data();
       virtual int32_t get_pressure();
