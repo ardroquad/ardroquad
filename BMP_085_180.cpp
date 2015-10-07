@@ -47,10 +47,14 @@ String BMP_085_180::diagnostic_data() {
   s += "    md:  "; s += _cc.md; s += "\r\n";
 #endif
   s += "  Temperature: "; s += "\r\n";
+#ifdef _DEBUG_
   s += "    raw: "; s += _temperature.raw; s += "\r\n";
+#endif
   s += "    celsius: "; s += _temperature.celsius / 10; s += "."; s += _temperature.celsius % 10; s += "\r\n";
   s += "  Pressure: "; s += "\r\n";
+#ifdef _DEBUG_
   s += "    raw: "; s += _pressure.raw; s += "\r\n";
+#endif
   s += "    pascals: "; s += _pressure.pascals; s += "\r\n";
   s += "    mm Hg: "; s += (long)((float)_pressure.pascals / 133.3); s += "\r\n";
   return s;

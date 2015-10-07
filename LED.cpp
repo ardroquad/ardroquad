@@ -40,6 +40,10 @@ void LED::brightness(const unsigned char brightness) {
   update_pin();
 };
 
+uint8_t LED::max_brightness() {
+  return __max_brightness;
+}
+
 void LED::on() {
   _state = __state_on;
   update_pin();

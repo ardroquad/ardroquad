@@ -24,6 +24,7 @@ namespace controls {
     LED(const uint8_t pin);
     LED();
     void brightness(const uint8_t brightness);
+    uint8_t max_brightness();
     void on();
     void off();
   };
