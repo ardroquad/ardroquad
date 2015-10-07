@@ -16,7 +16,7 @@ void setup() {
 void loop() {
   while (true) {
     Serial.println(pressure.diagnostic_data());
-    pressure.force_temperature_update();
+    pressure.get_pressure();
     LED.on();
     delay(500);
     LED.off();

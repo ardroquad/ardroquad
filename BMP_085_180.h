@@ -24,13 +24,28 @@ namespace sensors {
       static const uint8_t __cca_mc = 0xBC;
       static const uint8_t __cca_md = 0xBE;
       static const uint8_t __control_address = 0xF4;
-      static const uint8_t __address_UT = 0xF6;
-      static const uint8_t __command_read_UT = 0x2E;
-      static const uint8_t __delay_read_UT = 5;
-      static const uint8_t __address_UP = 0xF6;
-      static const uint8_t __command_read_UP = 0x34;
-      static const uint8_t __delay_read_UP = 5;
-      static const uint16_t __delay_temperature_update = 1000;
+      static const struct {
+        static const uint8_t address = 0xF6;
+        static const uint8_t command_read = 0x2E;
+        static const uint8_t delay_read = 5;
+        static const uint16_t delay_refresh = 1000;
+      } __UT;
+      static const struct {
+        static const uint8_t address = 0xF6;
+        static const uint8_t command_read = 0x34;
+        static const uint8_t delay_ultra_low_power = 6;
+        static const uint8_t delay_standard = 9;
+        static const uint8_t delay_high_resolution = 15;
+        static const uint8_t delay_ultra_high_resolution = 27;
+      } __UP;
+      static const uint8_t __UP_read_delays[4];
+      enum osses {
+        ultra_low_power = 0,
+        standard = 1,
+        high_resolution = 2,
+        ultra_high_resolution = 3
+      } _oss;
+      static const osses __oss = ultra_high_resolution;
       struct {
         int32_t ac1;
         int32_t ac2;
@@ -46,11 +61,18 @@ namespace sensors {
       } _cc;
       uint8_t _i2c_address;
       uint8_t _buffer[__buffer_size];
-      int32_t _UT;
-      int32_t _b5;
-      int32_t _temperature;
-      int32_t _UP;
-      int32_t _pressure;
+      struct {
+        int32_t raw;
+        int32_t celsius;
+        int32_t b5;
+        uint32_t last_read_millis;
+      } _temperature;
+      struct {
+        int32_t raw;
+        int32_t pascals;
+        uint32_t request_millis;
+      } _pressure;
+      bool _initialized;
       void read_data(const uint8_t address, const uint8_t bytes, uint8_t buffer[]);
       void read_16(const uint8_t address, int32_t& data);
       void read_16(const uint8_t address, uint32_t& data);
@@ -58,13 +80,12 @@ namespace sensors {
       void read_cc();
       void write_8(const uint8_t address, const uint8_t data);
       void read_temperature();
+      void request_pressure();
       void read_pressure();
     public:
       BMP_085_180();
       virtual void initialize();
       virtual String diagnostic_data();
-      void force_temperature_update();
-      virtual int32_t get_temperature();
       virtual int32_t get_pressure();
     };
   }
