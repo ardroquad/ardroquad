@@ -1,8 +1,8 @@
-#ifndef _c_sensor_h_
-#define _c_sensor_h_
+#ifndef _sensor_h_
+#define _sensor_h_
 
 namespace sensors {
-  class c_sensor {
+  class sensor {
   private:
   public:
     virtual void initialize() = 0;

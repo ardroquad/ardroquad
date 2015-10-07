@@ -1,13 +1,14 @@
-#ifndef _c_sensor_presssure_BMP_h_
-#define _c_sensor_presssure_BMP_h_
+#ifndef _BMP_085_180_h_
+#define _BMP_085_180_h_
 
+#include <Arduino.h>
 #include <Wire.h>
-#include "c_sensor_pressure.h"
+#include "pressure.h"
 
 namespace sensors {
   namespace pressure {
-    class c_BMP: 
-    public c_pressure {
+    class BMP_085_180: 
+    public pressure {
     private:
       static const uint8_t __i2c_address = 0x77;
       static const uint8_t __buffer_size = 3;
@@ -59,7 +60,7 @@ namespace sensors {
       void read_temperature();
       void read_pressure();
     public:
-      c_BMP();
+      BMP_085_180();
       virtual void initialize();
       virtual String diagnostic_data();
       void force_temperature_update();

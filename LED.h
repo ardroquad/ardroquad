@@ -1,10 +1,12 @@
-#ifndef _c_LED_h_
-#define _c_LED_h_
+#ifndef _LED_h_
+#define _LED_h_
 
 #include <Arduino.h>
+#include "control.h"
 
 namespace controls {
-  class c_LED {
+  class LED:
+  public control {
   private:
     static const bool __state_on = true;
     static const bool __state_off = false;
@@ -17,10 +19,10 @@ namespace controls {
     void initialize();
     const void update_pin();
   public:
-    c_LED(const uint8_t pin, const bool state, const uint8_t brightness);
-    c_LED(const uint8_t pin, const bool state);
-    c_LED(const uint8_t pin);
-    c_LED();
+    LED(const uint8_t pin, const bool state, const uint8_t brightness);
+    LED(const uint8_t pin, const bool state);
+    LED(const uint8_t pin);
+    LED();
     void brightness(const uint8_t brightness);
     void on();
     void off();

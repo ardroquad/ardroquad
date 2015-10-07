@@ -1,9 +1,9 @@
 #include <Arduino.h>
-#include "c_sensor_pressure_BMP.h"
+#include "BMP_085_180.h"
 
 using namespace sensors::pressure;
 
-c_BMP::c_BMP() {
+BMP_085_180::BMP_085_180() {
   _i2c_address = __i2c_address;
   _UT = 0;
   _temperature = 0;
@@ -12,13 +12,13 @@ c_BMP::c_BMP() {
   _pressure = 0;
 };
 
-void c_BMP::initialize() {
+void BMP_085_180::initialize() {
   read_cc();
   read_temperature();
   read_pressure();
 }
 
-void c_BMP::read_data(const uint8_t address, const uint8_t bytes, uint8_t buffer[]) {
+void BMP_085_180::read_data(const uint8_t address, const uint8_t bytes, uint8_t buffer[]) {
   Wire.beginTransmission(_i2c_address);
   Wire.write(address);
   Wire.endTransmission();
@@ -31,7 +31,7 @@ void c_BMP::read_data(const uint8_t address, const uint8_t bytes, uint8_t buffer
   Wire.endTransmission();
 }
 
-String c_BMP::diagnostic_data() {
+String BMP_085_180::diagnostic_data() {
   String s;
   s = "BMP085/BMP180:"; s += "\r\n";
   /*
@@ -58,24 +58,24 @@ String c_BMP::diagnostic_data() {
   return s;
 }
 
-void c_BMP::read_16(const uint8_t address, int32_t& data) {
+void BMP_085_180::read_16(const uint8_t address, int32_t& data) {
   read_data(address, 2, _buffer);
   int16_t data_16 = (int16_t)_buffer[0] << 8 | (int16_t)_buffer[1];
   data = data_16;
 }
 
-void c_BMP::read_19(const uint8_t address, int32_t& data) {
+void BMP_085_180::read_19(const uint8_t address, int32_t& data) {
   read_data(address, 3, _buffer);
   data = (int32_t)_buffer[0] << 16 | (int32_t)_buffer[1] << 8 | (int32_t)_buffer[2];
 }
 
-void c_BMP::read_16(const uint8_t address, uint32_t& data) {
+void BMP_085_180::read_16(const uint8_t address, uint32_t& data) {
   read_data(address, 2, _buffer);
   uint16_t data_16 = (uint16_t)_buffer[0] << 8 | (uint16_t)_buffer[1];
   data = data_16;
 }
 
-void c_BMP::read_cc() {
+void BMP_085_180::read_cc() {
   read_16(__cca_ac1, _cc.ac1);
   read_16(__cca_ac2, _cc.ac2);
   read_16(__cca_ac3, _cc.ac3);
@@ -89,14 +89,14 @@ void c_BMP::read_cc() {
   read_16(__cca_md, _cc.md);
 }
 
-void c_BMP::write_8(const uint8_t address, const uint8_t data) {
+void BMP_085_180::write_8(const uint8_t address, const uint8_t data) {
   Wire.beginTransmission(_i2c_address);
   Wire.write(address);
   Wire.write(data);
   Wire.endTransmission();
 }
 
-void c_BMP::read_temperature() {
+void BMP_085_180::read_temperature() {
   write_8(__control_address, __command_read_UT);
   delay(__delay_read_UT);
   read_16(__address_UT, _UT);
@@ -106,7 +106,7 @@ void c_BMP::read_temperature() {
   _temperature = (_b5 + 8) / 16;
 }
 
-void c_BMP::read_pressure() {
+void BMP_085_180::read_pressure() {
   write_8(__control_address, __command_read_UP);
   delay(__delay_read_UP);
   read_19(__address_UP, _UP);
@@ -128,11 +128,11 @@ void c_BMP::read_pressure() {
   _pressure = _pressure + (x1 + x2 + 3791) / 16;
 }
 
-void c_BMP::force_temperature_update() {
+void BMP_085_180::force_temperature_update() {
   read_temperature();
   read_pressure();
 }
 
-int32_t c_BMP::get_temperature() {
+int32_t BMP_085_180::get_temperature() {
   return _temperature;
 }

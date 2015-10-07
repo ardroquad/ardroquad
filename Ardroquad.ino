@@ -1,10 +1,10 @@
 #include <Arduino.h>
 #include <Wire.h>
-#include "c_LED.h"
-#include "c_sensor_pressure_BMP.h"
+#include "LED.h"
+#include "BMP_085_180.h"
 
-sensors::pressure::c_BMP pressure;
-controls::c_LED LED;
+sensors::pressure::BMP_085_180 pressure;
+controls::LED LED;
 
 void setup() {
   Serial.begin(115200);
