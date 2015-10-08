@@ -7,7 +7,8 @@
 #define _DEBUG_
 
 sensors::barometer::BMP180 barometer;
-sensors::accelerometer::MPU6050 accelerometer;
+sensors::orientation::accelerometer::MPU6050 accelerometer;
+sensors::orientation::gyroscope::MPU6050 gyroscope;
 
 void setup() {
   Serial.begin(115200);
@@ -15,17 +16,16 @@ void setup() {
   delay(1000);
   barometer.initialize();
   accelerometer.initialize();
+  gyroscope.initialize();
 }
 
 void loop() {
-//  Serial.println(barometer.diagnostic_data());
-//  barometer.get_pressure();
+  barometer.get_pressure();
   accelerometer.update();
-  Serial.print(accelerometer.X());
-  Serial.print(" ");
-  Serial.print(accelerometer.Y());
-  Serial.print(" ");
-  Serial.println(accelerometer.Z());
-  delay(100);
+  gyroscope.update();
+//  Serial.println(barometer.debug_info());
+//  Serial.println(accelerometer.debug_info());
+  Serial.println(gyroscope.debug_info());
+  delay(500);
 }
 

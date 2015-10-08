@@ -7,7 +7,8 @@ class sensor {
 private:
 public:
   virtual void initialize() = 0;
-  virtual String debug_info() = 0;
+  virtual const char* id() const = 0;
+  virtual String debug_info() const = 0;
 };
 
 }

@@ -10,6 +10,7 @@ namespace barometer {
 class BMP180: 
 public barometer {
 private:
+  static const char* __id;
   static const uint8_t __I2C_address = 0x77;
   static const uint8_t __cca_ac1 = 0xAA;
   static const uint8_t __cca_ac2 = 0xAC;
@@ -90,7 +91,8 @@ private:
 public:
   BMP180();
   virtual void initialize();
-  virtual String debug_info();
+  virtual const char* id() const;
+  virtual String debug_info() const;
   virtual int32_t get_pressure();
 };
 

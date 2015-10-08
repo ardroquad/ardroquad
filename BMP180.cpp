@@ -5,6 +5,8 @@
 namespace sensors {
 namespace barometer {
 
+const char* BMP180::__id = "BMP180/barometer";
+
 const uint8_t BMP180::__UP_delays_read[4] = {
   __UP.delay_ultra_low_power,
   __UP.delay_standard,
@@ -36,35 +38,13 @@ void BMP180::initialize() {
   _initialized = true;
 }
 
-String BMP180::debug_info() {
+const char* BMP180::id() const {
+  return __id;
+}
+
+String BMP180::debug_info() const {
   String s;
-  s = "BMP180:"; s += "\r\n";
-#ifdef _DEBUG_
-  s += "  Calibrating coefficients:"; s += "\r\n";
-  s += "ac1: "; s += _cc.ac1; s += "\r\n";
-  s += "ac2: "; s += _cc.ac2; s += "\r\n";
-  s += "ac3: "; s += _cc.ac3; s += "\r\n";
-  s += "ac4: "; s += _cc.ac4; s += "\r\n";
-  s += "ac5: "; s += _cc.ac5; s += "\r\n";
-  s += "ac6: "; s += _cc.ac6; s += "\r\n";
-  s += "b1:  "; s += _cc.b1; s += "\r\n";
-  s += "b2:  "; s += _cc.b2; s += "\r\n";
-  s += "mb:  "; s += _cc.mb; s += "\r\n";
-  s += "mc:  "; s += _cc.mc; s += "\r\n";
-  s += "md:  "; s += _cc.md; s += "\r\n";
-#endif
-  s += "  Temperature: "; s += "\r\n";
-#ifdef _DEBUG_
-  s += "    raw: "; s += _temperature.raw; s += "\r\n";
-#endif
-  s += "    celsius: "; s += _temperature.celsius / 10; s += "."; 
-  s += _temperature.celsius % 10; s += "\r\n";
-  s += "  Pressure: "; s += "\r\n";
-#ifdef _DEBUG_
-  s += "    raw: "; s += _pressure.raw; s += "\r\n";
-#endif
-  s += "    pascals: "; s += _pressure.pascals; s += "\r\n";
-  s += "    mm Hg: "; s += (long)((float)_pressure.pascals / 133.3); s += "\r\n";
+  s += __id; s += ": t(C): "; s += _temperature.celsius / 10; s += "."; s += _temperature.celsius % 10; s += ",  p(Pa): "; s += _pressure.pascals; s += ", p(mmHg): "; s += (long)((float)_pressure.pascals / 133.3);
   return s;
 }
 
