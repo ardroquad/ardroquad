@@ -29,6 +29,18 @@ void write_8(const uint8_t I2C_address, const uint8_t address, const uint8_t val
   Wire.endTransmission();
 }
 
+void read_16(const uint8_t I2C_address, const uint8_t address, int16_t& data) {
+  uint8_t buffer[2];
+  I2C::read_buffer(I2C_address, address, buffer, 2);
+  data = (int16_t)buffer[0] << 8 | (int16_t)buffer[1];
+}
+
+void read_16(const uint8_t I2C_address, const uint8_t address, uint16_t& data) {
+  uint8_t buffer[2];
+  I2C::read_buffer(I2C_address, address, buffer, 2);
+  data = (uint16_t)buffer[0] << 8 | (uint16_t)buffer[1];
+}
+
 void read_16(const uint8_t I2C_address, const uint8_t address, int32_t& data) {
   uint8_t buffer[2];
   I2C::read_buffer(I2C_address, address, buffer, 2);

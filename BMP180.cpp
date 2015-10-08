@@ -36,7 +36,7 @@ void BMP180::initialize() {
   _initialized = true;
 }
 
-String BMP180::diagnostic_data() {
+String BMP180::debug_info() {
   String s;
   s = "BMP180:"; s += "\r\n";
 #ifdef _DEBUG_

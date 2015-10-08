@@ -7,7 +7,7 @@ class sensor {
 private:
 public:
   virtual void initialize() = 0;
-  virtual String diagnostic_data() = 0;
+  virtual String debug_info() = 0;
 };
 
 }

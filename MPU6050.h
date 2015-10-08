@@ -3,6 +3,7 @@
 
 #include <Arduino.h>
 #include "accelerometer.h"
+#include "gyroscope.h"
 
 namespace sensors {
 namespace accelerometer {
@@ -13,15 +14,20 @@ private:
   static const uint8_t __I2C_address = 0x68;
   static const uint8_t __register_accelerometer_config = 0x6B;
   static const uint8_t __value_accelerometer_config = 0x2;
+  static const uint8_t __register_X = 0x3B;
+  static const uint8_t __register_Y = 0x3D;
+  static const uint8_t __register_Z = 0x3F;
+
 public:
   MPU6050();
   virtual void initialize();
-  virtual String diagnostic_data();
+  virtual String debug_info();
+  virtual void update();
 };
 
 }
-
 namespace gyroscope {
+
 class MPU6050: 
 public gyroscope {
 private:
@@ -33,7 +39,6 @@ private:
 public:
   MPU6050();
   virtual void initialize();
-  virtual String diagnostic_data();
 };
 
 }

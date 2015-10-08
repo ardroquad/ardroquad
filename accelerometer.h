@@ -8,8 +8,19 @@ namespace accelerometer {
 
 class accelerometer: 
 public sensor {
-private:
+protected:
+  struct {
+    int16_t X;
+    int16_t Y;
+    int16_t Z;
+  }
+  _values;
 public:
+  accelerometer();
+  int16_t X();
+  int16_t Y();
+  int16_t Z();
+  virtual void update() = 0;
 };
 
 }

@@ -90,7 +90,7 @@ private:
 public:
   BMP180();
   virtual void initialize();
-  virtual String diagnostic_data();
+  virtual String debug_info();
   virtual int32_t get_pressure();
 };
 
