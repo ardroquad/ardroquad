@@ -3,15 +3,15 @@
 
 #include "sensor.h"
 
-namespace sensors {
-  namespace accelerometer {
-    class accelerometer: 
-    public sensor {
-    private:
-    public:
-    };
-  }
-}
+namespace sensors { namespace accelerometer {
+
+class accelerometer: 
+public sensor {
+private:
+public:
+};
+
+}}
 
 #endif
 

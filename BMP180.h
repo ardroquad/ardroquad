@@ -10,7 +10,6 @@ class BMP180:
 public barometer {
 private:
   static const uint8_t __I2C_address = 0x77;
-  static const uint8_t __buffer_size = 3;
   static const uint8_t __cca_ac1 = 0xAA;
   static const uint8_t __cca_ac2 = 0xAC;
   static const uint8_t __cca_ac3 = 0xAE;
@@ -62,7 +61,6 @@ private:
     int32_t md;
   } 
   _cc;
-  uint8_t _buffer[__buffer_size];
   struct {
     int32_t raw;
     int32_t celsius;
@@ -83,10 +81,6 @@ private:
     pressure
   } 
   _reading_parameter;
-  void read_data(const uint8_t address, const uint8_t bytes, uint8_t buffer[]);
-  void read_16(const uint8_t address, int32_t& data);
-  void read_16(const uint8_t address, uint32_t& data);
-  void read_19(const uint8_t address, int32_t& data);
   void read_cc();
   void request_temperature();
   void read_temperature();

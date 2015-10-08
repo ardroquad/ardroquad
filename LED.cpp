@@ -1,6 +1,6 @@
 #include "LED.h"
 
-using namespace controls;
+namespace controls {
 
 LED::LED(const uint8_t pin, const bool state, const uint8_t brightness): 
 _pin(pin), _state(state), _brightness(brightness) {
@@ -53,3 +53,5 @@ void LED::off() {
   _state = __state_off;
   update_pin();
 };
+
+}

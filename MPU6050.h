@@ -4,20 +4,22 @@
 #include <Arduino.h>
 #include "accelerometer.h"
 
-namespace sensors {
-  namespace accelerometer {
-    class MPU6050: 
-    public accelerometer {
-    private:
-      static const uint8_t __I2C_address = 0x68;
-      static const uint8_t __register_accelerometer_config = 0x6B;
-      static const uint8_t __value_accelerometer_config = 0x2;
-    public:
-      MPU6050();
-      virtual void initialize();
-      virtual String diagnostic_data();
-    };
-  }
+namespace sensors { namespace accelerometer {
+
+class MPU6050:
+public accelerometer {
+private:
+  static const uint8_t __I2C_address = 0x68;
+  static const uint8_t __register_accelerometer_config = 0x6B;
+  static const uint8_t __value_accelerometer_config = 0x2;
+public:
+  MPU6050();
+  virtual void initialize();
+  virtual String diagnostic_data();
+};
+
+}}
+
   /*
   namespace gyroscope {
     class MPU6050: 
@@ -35,6 +37,5 @@ namespace sensors {
     };
   }
   */
-}
 
 #endif

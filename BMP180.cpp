@@ -67,57 +67,28 @@ String BMP180::diagnostic_data() {
   return s;
 }
 
-void BMP180::read_data(const uint8_t address, const uint8_t bytes, uint8_t buffer[]) {
-  Wire.beginTransmission(__I2C_address);
-  Wire.write(address);
-  Wire.endTransmission();
-  Wire.beginTransmission(__I2C_address);
-  Wire.requestFrom(__I2C_address, bytes);
-  for (uint8_t i = 0; Wire.available() && i < bytes; ++i) {
-    buffer[i] = Wire.read();
-  }
-  Wire.endTransmission();
-}
-
-void BMP180::read_16(const uint8_t address, int32_t& data) {
-  read_data(address, 2, _buffer);
-  int16_t data_16 = (int16_t)_buffer[0] << 8 | (int16_t)_buffer[1];
-  data = data_16;
-}
-
-void BMP180::read_16(const uint8_t address, uint32_t& data) {
-  read_data(address, 2, _buffer);
-  uint16_t data_16 = (uint16_t)_buffer[0] << 8 | (uint16_t)_buffer[1];
-  data = data_16;
-}
-
-void BMP180::read_19(const uint8_t address, int32_t& data) {
-  read_data(address, 3, _buffer);
-  data = (int32_t)_buffer[0] << 16 | (int32_t)_buffer[1] << 8 | (int32_t)_buffer[2];
-}
-
 void BMP180::read_cc() {
-  read_16(__cca_ac1, _cc.ac1);
-  read_16(__cca_ac2, _cc.ac2);
-  read_16(__cca_ac3, _cc.ac3);
-  read_16(__cca_ac4, _cc.ac4);
-  read_16(__cca_ac5, _cc.ac5);
-  read_16(__cca_ac6, _cc.ac6);
-  read_16(__cca_b1, _cc.b1);
-  read_16(__cca_b2, _cc.b2);
-  read_16(__cca_mb, _cc.mb);
-  read_16(__cca_mc, _cc.mc);
-  read_16(__cca_md, _cc.md);
+  I2C::read_16(__I2C_address, __cca_ac1, _cc.ac1);
+  I2C::read_16(__I2C_address, __cca_ac2, _cc.ac2);
+  I2C::read_16(__I2C_address, __cca_ac3, _cc.ac3);
+  I2C::read_16(__I2C_address, __cca_ac4, _cc.ac4);
+  I2C::read_16(__I2C_address, __cca_ac5, _cc.ac5);
+  I2C::read_16(__I2C_address, __cca_ac6, _cc.ac6);
+  I2C::read_16(__I2C_address, __cca_b1, _cc.b1);
+  I2C::read_16(__I2C_address, __cca_b2, _cc.b2);
+  I2C::read_16(__I2C_address, __cca_mb, _cc.mb);
+  I2C::read_16(__I2C_address, __cca_mc, _cc.mc);
+  I2C::read_16(__I2C_address, __cca_md, _cc.md);
 }
 
 void BMP180::request_temperature() {
-  I2C::write_register(__I2C_address, __control_address, __UT.command_read);
+  I2C::write_8(__I2C_address, __control_address, __UT.command_read);
   _temperature.request_millis = millis();
   _reading_parameter = temperature;
 }
 
 void BMP180::read_temperature() {
-  read_16(__UT.address, _temperature.raw);
+  I2C::read_16(__I2C_address, __UT.address, _temperature.raw);
   int32_t x1 = (_temperature.raw - _cc.ac6) * _cc.ac5 / 32768;
   int32_t x2 = _cc.mc * 2048 / (x1 + _cc.md);
   _temperature.b5 = x1 + x2;
@@ -126,13 +97,13 @@ void BMP180::read_temperature() {
 }
 
 void BMP180::request_pressure() {
-  I2C::write_register(__I2C_address, __control_address, __UP.command_read + (_oss << 6));
+  I2C::write_8(__I2C_address, __control_address, __UP.command_read + (_oss << 6));
   _pressure.request_millis = millis();
   _reading_parameter = pressure;
 }
 
 void BMP180::read_pressure() {
-  read_19(__UP.address, _pressure.raw);
+  I2C::read_24(__I2C_address, __UP.address, _pressure.raw);
   _pressure.raw >>= 8 - _oss;
   int32_t b6 = _temperature.b5 - 4000;
   int32_t x1 = (_cc.b2 * (b6 * b6 / 4096)) / 2048;

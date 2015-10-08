@@ -2,10 +2,12 @@
 #define _control_h_
 
 namespace controls {
-  class control {
-  private:
-  public:
-  };
+  
+class control {
+private:
+public:
+};
+
 }
 
 #endif
