@@ -2,7 +2,8 @@
 #include "BMP180.h"
 #include "I2C.h"
 
-namespace sensors { namespace barometer {
+namespace sensors {
+namespace barometer {
 
 const uint8_t BMP180::__UP_delays_read[4] = {
   __UP.delay_ultra_low_power,
@@ -152,5 +153,5 @@ int32_t BMP180::get_pressure() {
   return _pressure.pascals;
 }
 
-}}
-
+}
+}

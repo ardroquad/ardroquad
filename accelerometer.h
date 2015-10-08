@@ -3,7 +3,8 @@
 
 #include "sensor.h"
 
-namespace sensors { namespace accelerometer {
+namespace sensors {
+namespace accelerometer {
 
 class accelerometer: 
 public sensor {
@@ -11,7 +12,8 @@ private:
 public:
 };
 
-}}
+}
+}
 
 #endif
 

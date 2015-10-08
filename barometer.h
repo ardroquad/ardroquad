@@ -3,7 +3,8 @@
 
 #include "sensor.h"
 
-namespace sensors { namespace barometer {
+namespace sensors {
+namespace barometer {
   
 class barometer: 
 public sensor {
@@ -12,7 +13,8 @@ public:
   virtual int32_t get_pressure() = 0;
 };
 
-}}
+}
+}
 
 #endif
 

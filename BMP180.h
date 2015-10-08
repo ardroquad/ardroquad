@@ -4,7 +4,8 @@
 #include <Arduino.h>
 #include "barometer.h"
 
-namespace sensors { namespace barometer {
+namespace sensors {
+namespace barometer {
 
 class BMP180: 
 public barometer {
@@ -93,8 +94,7 @@ public:
   virtual int32_t get_pressure();
 };
 
-}}
+}
+}
 
 #endif
-
-
