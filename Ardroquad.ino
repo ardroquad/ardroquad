@@ -18,6 +18,7 @@ void setup() {
   delay(1000);
   barometer.initialize();
   accelerometer.initialize();
+  accelerometer.set_correction_Z(225);
   gyroscope.initialize();
   sensors::orientation::magnetometer::MPU6050::I2C_bypass_mode();
   magnetometer.initialize();

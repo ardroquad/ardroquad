@@ -35,6 +35,7 @@ void MPU6050::update() {
   I2C::read_16(__I2C_address, __register_X, _values.X);
   I2C::read_16(__I2C_address, __register_Y, _values.Y);
   I2C::read_16(__I2C_address, __register_Z, _values.Z);
+  correct();
   _valuesG.X = (float)_values.X / (float)32767 * __full_scale_ranges[__full_scale_range].max_g;
   _valuesG.Y = (float)_values.Y / (float)32767 * __full_scale_ranges[__full_scale_range].max_g;
   _valuesG.Z = (float)_values.Z / (float)32767 * __full_scale_ranges[__full_scale_range].max_g;

@@ -8,6 +8,9 @@ orientation::orientation() {
   _values.X = 0;
   _values.Y = 0;
   _values.Z = 0;
+  _correction.X = 0;
+  _correction.Y = 0;
+  _correction.Z = 0;
 }
 
 String orientation::debug_info() const {
@@ -26,6 +29,24 @@ int16_t orientation::Y() const {
 
 int16_t orientation::Z() const {
   return _values.Z;
+}
+
+void orientation::set_correction_X(const int16_t correction) {
+  _correction.X = correction;
+}
+
+void orientation::set_correction_Y(const int16_t correction) {
+  _correction.Y = correction;
+}
+
+void orientation::set_correction_Z(const int16_t correction) {
+  _correction.Z = correction;
+}
+
+void orientation::correct() {
+  _values.X += _correction.X;
+  _values.Y += _correction.Y;
+  _values.Z += _correction.Z;
 }
 
 }
