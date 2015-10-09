@@ -26,6 +26,8 @@ public magnetometer {
 private:
   static const char* __id;
   static const uint8_t __I2C_address = 0x1E;
+  static const uint8_t __register_configuration_a = 0x0;
+  static const uint8_t __value_configuration_a = 0x18;
   static const uint8_t __register_mode = 0x2;
   static const uint8_t __value_mode = 0x0;
   static const uint8_t __register_X = 0x3;

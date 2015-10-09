@@ -19,6 +19,7 @@ void bypass_init() {
 const char* HMC5883::__id = "MPU6050_HMC5883L/magnetometer";
 
 void HMC5883::initialize() {
+  I2C::write_8(__I2C_address, __register_configuration_a, __value_configuration_a);
   I2C::write_8(__I2C_address, __register_mode, __value_mode);
 }
 
