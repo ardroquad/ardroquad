@@ -8,7 +8,7 @@ namespace magnetometer {
 
 namespace MPU6050 {
 
-void bypass_init() {
+void I2C_bypass_mode() {
   I2C::write_8(__I2C_address, __register_user_control, __value_user_control);
   I2C::write_8(__I2C_address, __register_interruption_pin_config, __value_interruption_pin_config);
   I2C::write_8(__I2C_address, __register_pwr_mgmt_1, __value_pwr_mgmt_1);

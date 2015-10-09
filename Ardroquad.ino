@@ -19,19 +19,19 @@ void setup() {
   barometer.initialize();
   accelerometer.initialize();
   gyroscope.initialize();
+  sensors::orientation::magnetometer::MPU6050::I2C_bypass_mode();
   magnetometer.initialize();
-  sensors::orientation::magnetometer::MPU6050::bypass_init();
 }
 
 void loop() {
   barometer.get_pressure();
   accelerometer.update();
   gyroscope.update();
-  magnetometer.update();
+//  magnetometer.update();
 //  Serial.println(barometer.debug_info());
-//  Serial.println(accelerometer.debug_info());
+  Serial.println(accelerometer.debug_info());
 //  Serial.println(gyroscope.debug_info());
-  Serial.println(magnetometer.debug_info());
+//  Serial.println(magnetometer.debug_info());
   delay(500);
 }
 

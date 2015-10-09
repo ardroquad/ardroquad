@@ -17,7 +17,7 @@ static const uint8_t __register_interruption_pin_config = 0x37;
 static const uint8_t __value_interruption_pin_config = 0x2;
 static const uint8_t __register_pwr_mgmt_1 = 0x6B;
 static const uint8_t __value_pwr_mgmt_1 = 0x0;
-void bypass_init();
+void I2C_bypass_mode();
 
 }
 

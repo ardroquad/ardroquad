@@ -15,7 +15,7 @@ private:
   static const char* __id;
   static const uint8_t __I2C_address = 0x68;
   static const uint8_t __register_accelerometer_config = 0x6B;
-  static const uint8_t __value_accelerometer_config = 0x2;
+  static const uint8_t __value_accelerometer_config = 0x0;
   static const uint8_t __register_DLPF_config = 0x1a;
   static const uint8_t __value_DLPF_config = 0x0;
   static const uint8_t __register_pwr_mgmt_1 = 0x6B;
