@@ -12,10 +12,14 @@ namespace accelerometer {
 class MPU6050:
 public accelerometer {
 private:
+  static const struct __full_scale_range_struct {
+    uint8_t value_accelerometer_config;
+    uint8_t max_g;
+  } __full_scale_ranges[];
   static const char* __id;
   static const uint8_t __I2C_address = 0x68;
-  static const uint8_t __register_accelerometer_config = 0x6B;
-  static const uint8_t __value_accelerometer_config = 0x0;
+  static const uint8_t __full_scale_range = 2;
+  static const uint8_t __register_accelerometer_config = 0x1c;
   static const uint8_t __register_DLPF_config = 0x1a;
   static const uint8_t __value_DLPF_config = 0x0;
   static const uint8_t __register_pwr_mgmt_1 = 0x6B;
@@ -23,11 +27,15 @@ private:
   static const uint8_t __register_X = 0x3B;
   static const uint8_t __register_Y = 0x3D;
   static const uint8_t __register_Z = 0x3F;
-
+  struct {
+    float X;
+    float Y;
+    float Z;
+  } _valuesG;
 public:
-  MPU6050();
   virtual void initialize();
   virtual const char* id() const;
+  virtual String debug_info();
   virtual void update();
 };
 

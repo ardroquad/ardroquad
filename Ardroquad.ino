@@ -14,7 +14,7 @@ sensors::orientation::magnetometer::HMC5883 magnetometer;
 
 void setup() {
   Serial.begin(115200);
-  Wire.begin(); 
+  Wire.begin();
   delay(1000);
   barometer.initialize();
   accelerometer.initialize();
