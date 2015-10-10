@@ -33,6 +33,6 @@ void loop() {
   Serial.println(accelerometer.debug_info());
 //  Serial.println(gyroscope.debug_info());
 //  Serial.println(magnetometer.debug_info());
-  delay(500);
+  delay(1000);
 }
 

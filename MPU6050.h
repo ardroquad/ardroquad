@@ -27,15 +27,9 @@ private:
   static const uint8_t __register_X = 0x3B;
   static const uint8_t __register_Y = 0x3D;
   static const uint8_t __register_Z = 0x3F;
-  struct {
-    float X;
-    float Y;
-    float Z;
-  } _valuesG;
 public:
   virtual void initialize();
   virtual const char* id() const;
-  virtual String debug_info();
   virtual void update();
 };
 

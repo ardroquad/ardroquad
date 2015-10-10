@@ -1,6 +1,7 @@
 #ifndef _orientation_h_
 #define _orientation_h_
 
+#include <Arduino.h>
 #include "sensor.h"
 
 namespace sensors {

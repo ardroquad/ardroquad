@@ -24,21 +24,15 @@ const char* MPU6050::id() const {
   return __id;
 }
 
-String MPU6050::debug_info() {
-  String s;
-  s += accelerometer::debug_info();
-  s += ", Xg: "; s += _valuesG.X; s += ", Yg: "; s += _valuesG.Y; s += ", Zg: "; s += _valuesG.Z;
-  return s;
-}
-
 void MPU6050::update() {
   I2C::read_16(__I2C_address, __register_X, _values.X);
   I2C::read_16(__I2C_address, __register_Y, _values.Y);
   I2C::read_16(__I2C_address, __register_Z, _values.Z);
   correct();
-  _valuesG.X = (float)_values.X / (float)32767 * __full_scale_ranges[__full_scale_range].max_g;
-  _valuesG.Y = (float)_values.Y / (float)32767 * __full_scale_ranges[__full_scale_range].max_g;
-  _valuesG.Z = (float)_values.Z / (float)32767 * __full_scale_ranges[__full_scale_range].max_g;
+  _values_g.X = (float)_values.X / (float)32767 * (float)__full_scale_ranges[__full_scale_range].max_g;
+  _values_g.Y = (float)_values.Y / (float)32767 * (float)__full_scale_ranges[__full_scale_range].max_g;
+  _values_g.Z = (float)_values.Z / (float)32767 * (float)__full_scale_ranges[__full_scale_range].max_g;
+  accelerometer::update();
 }
 
 }
