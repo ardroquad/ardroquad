@@ -19,27 +19,27 @@ String orientation::debug_info() const {
   return s;
 }
 
-int16_t orientation::X() const {
+int32_t orientation::X() const {
   return _values.X;
 }
 
-int16_t orientation::Y() const {
+int32_t orientation::Y() const {
   return _values.Y;
 }
 
-int16_t orientation::Z() const {
+int32_t orientation::Z() const {
   return _values.Z;
 }
 
-void orientation::set_correction_X(const int16_t correction) {
+void orientation::set_correction_X(const int32_t correction) {
   _correction.X = correction;
 }
 
-void orientation::set_correction_Y(const int16_t correction) {
+void orientation::set_correction_Y(const int32_t correction) {
   _correction.Y = correction;
 }
 
-void orientation::set_correction_Z(const int16_t correction) {
+void orientation::set_correction_Z(const int32_t correction) {
   _correction.Z = correction;
 }
 

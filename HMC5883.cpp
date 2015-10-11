@@ -5,7 +5,6 @@
 namespace sensors {
 namespace orientation {
 namespace magnetometer {
-
 namespace MPU6050 {
 
 void I2C_bypass_mode() {

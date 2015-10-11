@@ -9,8 +9,18 @@ namespace gyroscope {
 
 class gyroscope: 
 public orientation {
-private:
+protected:
+  struct {
+    float X;
+    float Y;
+    float Z;
+  } _values_dps;
 public:
+  gyroscope();
+  const float Xdps();
+  const float Ydps();
+  const float Zdps();
+  virtual String debug_info();
 };
 
 }

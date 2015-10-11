@@ -39,6 +39,12 @@ void MPU6050::update() {
 namespace gyroscope {
 
 const char* MPU6050::__id = "MPU6050/gyroscope";
+const MPU6050::__full_scale_range_struct MPU6050::__full_scale_ranges[] = {
+  {0x0, 250},
+  {0x8, 500},
+  {0x10, 1000},
+  {0x18, 2000}
+};
 
 MPU6050::MPU6050() {
 }
@@ -57,6 +63,10 @@ void MPU6050::update() {
   I2C::read_16(__I2C_address, __register_X, _values.X);
   I2C::read_16(__I2C_address, __register_Y, _values.Y);
   I2C::read_16(__I2C_address, __register_Z, _values.Z);
+  correct();
+  _values_dps.X = (float)_values.X / (float)32767 * (float)__full_scale_ranges[__full_scale_range].max_degrees_per_second;
+  _values_dps.Y = (float)_values.Y / (float)32767 * (float)__full_scale_ranges[__full_scale_range].max_degrees_per_second;
+  _values_dps.Z = (float)_values.Z / (float)32767 * (float)__full_scale_ranges[__full_scale_range].max_degrees_per_second;
 }
 
 }

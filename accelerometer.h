@@ -19,7 +19,7 @@ protected:
     float X;
     float Y;
     float Z;
-  } _values_degree;
+  } _values_radians;
 public:
   accelerometer();
   const float Xg();
