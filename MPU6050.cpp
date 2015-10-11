@@ -25,13 +25,11 @@ const char* MPU6050::id() const {
 }
 
 void MPU6050::update() {
-  I2C::read_16(__I2C_address, __register_X, _values.X);
-  I2C::read_16(__I2C_address, __register_Y, _values.Y);
-  I2C::read_16(__I2C_address, __register_Z, _values.Z);
+  I2C::read_3x16(__I2C_address, __register_XYZ, _values.X, _values.Y, _values.Z);
   correct();
-  _values_g.X = (float)_values.X / (float)32767 * (float)__full_scale_ranges[__full_scale_range].max_g;
-  _values_g.Y = (float)_values.Y / (float)32767 * (float)__full_scale_ranges[__full_scale_range].max_g;
-  _values_g.Z = (float)_values.Z / (float)32767 * (float)__full_scale_ranges[__full_scale_range].max_g;
+  _g.X = (float)_values.X / (float)32767 * (float)__full_scale_ranges[__full_scale_range].max_g;
+  _g.Y = (float)_values.Y / (float)32767 * (float)__full_scale_ranges[__full_scale_range].max_g;
+  _g.Z = (float)_values.Z / (float)32767 * (float)__full_scale_ranges[__full_scale_range].max_g;
   accelerometer::update();
 }
 
@@ -60,9 +58,7 @@ const char* MPU6050::id() const {
 }
 
 void MPU6050::update() {
-  I2C::read_16(__I2C_address, __register_X, _values.X);
-  I2C::read_16(__I2C_address, __register_Y, _values.Y);
-  I2C::read_16(__I2C_address, __register_Z, _values.Z);
+  I2C::read_3x16(__I2C_address, __register_XYZ, _values.X, _values.Y, _values.Z);
   correct();
   _values_dps.X = (float)_values.X / (float)32767 * (float)__full_scale_ranges[__full_scale_range].max_degrees_per_second;
   _values_dps.Y = (float)_values.Y / (float)32767 * (float)__full_scale_ranges[__full_scale_range].max_degrees_per_second;

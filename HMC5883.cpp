@@ -27,9 +27,7 @@ const char* HMC5883::id() const {
 }
 
 void HMC5883::update() {
-  I2C::read_16(__I2C_address, __register_X, _values.X);
-  I2C::read_16(__I2C_address, __register_Y, _values.Y);
-  I2C::read_16(__I2C_address, __register_Z, _values.Z);
+  I2C::read_3x16(__I2C_address, __register_XYZ, _values.X, _values.Y, _values.Z);
 }
 
 }

@@ -5,38 +5,50 @@ namespace orientation {
 namespace accelerometer {
 
 accelerometer::accelerometer() {
-  _values_g.X = 0;
-  _values_g.Y = 0;
-  _values_g.Z = 0;
-  _values_radians.X = 0;
-  _values_radians.Y = 0;
-  _values_radians.Z = 0;
+  _g.X = 0;
+  _g.Y = 0;
+  _g.Z = 0;
+  _normalized.X = 0;
+  _normalized.Y = 0;
+  _normalized.Z = 0;
 }
 
-const float accelerometer::Xg() {
-  return _values_g.X;
+const float accelerometer::X_g() {
+  return _g.X;
 }
 
-const float accelerometer::Yg() {
-  return _values_g.Y;
+const float accelerometer::Y_g() {
+  return _g.Y;
 }
 
-const float accelerometer::Zg() {
-  return _values_g.Z;
+const float accelerometer::Z_g() {
+  return _g.Z;
+}
+
+const float accelerometer::X_normalized() {
+  return _normalized.X;
+}
+
+const float accelerometer::Y_normalized() {
+  return _normalized.Y;
+}
+
+const float accelerometer::Z_normalized() {
+  return _normalized.Z;
 }
 
 String accelerometer::debug_info() {
   String s;
   s += orientation::debug_info();
-  s += ", X(g): "; s += _values_g.X; s += ", Y(g): "; s += _values_g.Y; s += ", Z(g): "; s += _values_g.Z; s += ", X(degree): "; s += _values_radians.X; s += ", Y(degree): "; s += _values_radians.Y; s += ", Z(degree): "; s += _values_radians.Z;
+  s += ", X(g): "; s += _g.X; s += ", Y(g): "; s += _g.Y; s += ", Z(g): "; s += _g.Z; s += ", X(normalized): "; s += _normalized.X; s += ", Y(normalized): "; s += _normalized.Y; s += ", Z(normalized): "; s += _normalized.Z;
   return s;
 }
 
 void accelerometer::update() {
-  float R = sqrt(_values_g.X * _values_g.X + _values_g.Y * _values_g.Y + _values_g.Z * _values_g.Z);
-  _values_radians.X = acos(_values_g.X / R);
-  _values_radians.Y = acos(_values_g.Y / R);
-  _values_radians.Z = acos(_values_g.Z / R);
+  float R = sqrt(_g.X * _g.X + _g.Y * _g.Y + _g.Z * _g.Z);
+  _normalized.X = _g.X / R;
+  _normalized.Y = _g.Y / R;
+  _normalized.Z = _g.Z / R;
 }
 
 }

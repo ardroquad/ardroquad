@@ -22,9 +22,6 @@ protected:
     int32_t Z;
   }
   _correction;
-  int32_t X() const;
-  int32_t Y() const;
-  int32_t Z() const;
 public:
   orientation();
   virtual String debug_info() const;
@@ -33,6 +30,9 @@ public:
   void set_correction_Y(const int32_t correction);
   void set_correction_Z(const int32_t correction);
   void correct();
+  int32_t X() const;
+  int32_t Y() const;
+  int32_t Z() const;
 };
 
 }

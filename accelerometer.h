@@ -14,17 +14,20 @@ protected:
     float X;
     float Y;
     float Z;
-  } _values_g;
+  } _g;
   struct {
     float X;
     float Y;
     float Z;
-  } _values_radians;
+  } _normalized;
 public:
   accelerometer();
-  const float Xg();
-  const float Yg();
-  const float Zg();
+  const float X_g();
+  const float Y_g();
+  const float Z_g();
+  const float X_normalized();
+  const float Y_normalized();
+  const float Z_normalized();
   virtual String debug_info();
   virtual void update();
 };

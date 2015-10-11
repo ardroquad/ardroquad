@@ -61,4 +61,15 @@ void read_24(const uint8_t I2C_address, const uint8_t address, int32_t& data) {
   data = (int32_t)buffer[0] << 16 | (int32_t)buffer[1] << 8 | (int32_t)buffer[2];
 }
 
+void read_3x16(const uint8_t I2C_address, const uint8_t address, int32_t& data_1, int32_t& data_2, int32_t& data_3) {
+  uint8_t buffer[6];
+  I2C::read_buffer(I2C_address, address, buffer, 6);
+  int16_t data_16 = (int16_t)buffer[0] << 8 | (int16_t)buffer[1];
+  data_1 = data_16;
+  data_16 = (int16_t)buffer[2] << 8 | (int16_t)buffer[3];
+  data_2 = data_16;
+  data_16 = (int16_t)buffer[4] << 8 | (int16_t)buffer[5];
+  data_3 = data_16;
+}
+
 }

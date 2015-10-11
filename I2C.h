@@ -13,6 +13,7 @@ void read_16(const uint8_t I2C_address, const uint8_t address, uint16_t& data);
 void read_16(const uint8_t I2C_address, const uint8_t address, int32_t& data);
 void read_16(const uint8_t I2C_address, const uint8_t address, uint32_t& data);
 void read_24(const uint8_t I2C_address, const uint8_t address, int32_t& data);
+void read_3x16(const uint8_t I2C_address, const uint8_t address, int32_t& data_1, int32_t& data_2, int32_t& data_3);
 
 }
 

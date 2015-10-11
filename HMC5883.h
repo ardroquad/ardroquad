@@ -30,9 +30,7 @@ private:
   static const uint8_t __value_configuration_a = 0x18;
   static const uint8_t __register_mode = 0x2;
   static const uint8_t __value_mode = 0x0;
-  static const uint8_t __register_X = 0x3;
-  static const uint8_t __register_Y = 0x5;
-  static const uint8_t __register_Z = 0x7;
+  static const uint8_t __register_XYZ = 0x3;
 public:
   virtual void initialize();
   virtual const char* id() const;
