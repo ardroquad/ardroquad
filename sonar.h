@@ -10,7 +10,7 @@ class sonar:
 public sensor {
 private:
 public:
-  virtual int32_t get_distance() = 0;
+  virtual double get_distance_cm() const = 0;
 };
 
 }

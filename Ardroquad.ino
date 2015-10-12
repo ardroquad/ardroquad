@@ -4,6 +4,7 @@
 #include "BMP180.h"
 #include "MPU6050.h"
 #include "HMC5883.h"
+#include "HC_SR04.h"
 #include "IMU.h"
 
 #define _DEBUG_
@@ -12,6 +13,7 @@ sensors::barometer::BMP180 barometer;
 sensors::orientation::accelerometer::MPU6050 accelerometer;
 sensors::orientation::gyroscope::MPU6050 gyroscope;
 sensors::orientation::magnetometer::HMC5883 magnetometer;
+sensors::sonar::HC_SR04 sonar;
 IMU::Kalman _IMU(accelerometer, gyroscope);
 
 void setup() {
