@@ -18,7 +18,7 @@ private:
   } __full_scale_ranges[];
   static const char* __id;
   static const uint8_t __I2C_address = 0x68;
-  static const uint8_t __full_scale_range = 3;
+  static const uint8_t __full_scale_range = 2;
   static const uint8_t __register_accelerometer_config = 0x1c;
   static const uint8_t __register_DLPF_config = 0x1a;
   static const uint8_t __value_DLPF_config = 0x0;
@@ -43,7 +43,7 @@ private:
   } __full_scale_ranges[];
   static const char* __id;
   static const uint8_t __I2C_address = 0x68;
-  static const uint8_t __full_scale_range = 0;
+  static const uint8_t __full_scale_range = 3;
   static const uint8_t __register_gyroscope_config = 0x1b;
   static const uint8_t __value_gyroscope_config = 0x18;
   static const uint8_t __register_DLPF_config = 0x1a;

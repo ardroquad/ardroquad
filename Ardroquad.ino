@@ -12,7 +12,7 @@ sensors::barometer::BMP180 barometer;
 sensors::orientation::accelerometer::MPU6050 accelerometer;
 sensors::orientation::gyroscope::MPU6050 gyroscope;
 sensors::orientation::magnetometer::HMC5883 magnetometer;
-IMU _IMU(accelerometer, gyroscope);
+IMU::Kalman _IMU(accelerometer, gyroscope);
 
 void setup() {
   Serial.begin(115200);
@@ -22,6 +22,9 @@ void setup() {
   accelerometer.initialize();
   accelerometer.set_correction_Z(225);
   gyroscope.initialize();
+  gyroscope.set_correction_X(17);
+  gyroscope.set_correction_Y(-34);
+  gyroscope.set_correction_Z(16);
   sensors::orientation::magnetometer::MPU6050::I2C_bypass_mode();
   magnetometer.initialize();
 }

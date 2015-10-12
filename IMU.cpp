@@ -1,19 +1,38 @@
 #include "IMU.h"
 
+namespace IMU {
+
 IMU::IMU(sensors::orientation::accelerometer::accelerometer& accelerometer, sensors::orientation::gyroscope::gyroscope& gyroscope):
   _accelerometer(accelerometer),
   _gyroscope(gyroscope)
 {
-  _estimate[0].X = _accelerometer.X_normalized();;
-  _estimate[0].Y = _accelerometer.Y_normalized();;
-  _estimate[0].Z = _accelerometer.Z_normalized();;
-  _estimate[1].X = 0;
-  _estimate[1].Y = 0;
-  _estimate[1].Z = 0;
+  _time_micros = micros();
 }
 
-void IMU::calculate() {
-  _estimate[1] = _estimate[0];
-  double AXZ1 = atan2(_estimate[1].X, _estimate[1].Z);
+double IMU::get_dt() {
+  double time_micros = _time_micros;
+  _time_micros = micros();
+  return _time_micros - time_micros;
 }
 
+Kalman::axis::axis() {
+  _Q_angle = 0;
+  _Q_bias = 0;
+  _R = 0;
+  _angle = 0;
+  _bias = 0;
+  _P[0][0] = 0;
+  _P[0][1] = 0;
+  _P[1][0] = 0;
+  _P[1][1] = 0;
+}
+
+Kalman::Kalman(sensors::orientation::accelerometer::accelerometer& accelerometer, sensors::orientation::gyroscope::gyroscope& gyroscope):
+IMU(accelerometer, gyroscope)
+{
+}
+
+void Kalman::iteration() {
+}
+
+}
