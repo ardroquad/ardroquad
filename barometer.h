@@ -1,5 +1,5 @@
-#ifndef _pressure_h_
-#define _pressure_h_
+#ifndef _barometer_h_
+#define _barometer_h_
 
 #include "sensor.h"
 
@@ -17,6 +17,3 @@ public:
 }
 
 #endif
-
-
-
