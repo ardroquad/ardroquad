@@ -32,8 +32,8 @@ void loop() {
   gyroscope.update();
   magnetometer.update();
 //  Serial.println(barometer.debug_info());
-  Serial.println(accelerometer.debug_info());
-//  Serial.println(gyroscope.debug_info());
+//  Serial.println(accelerometer.debug_info());
+  Serial.println(gyroscope.debug_info());
 //  Serial.println(magnetometer.debug_info());
   delay(500);
 }
