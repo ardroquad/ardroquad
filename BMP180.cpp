@@ -106,7 +106,7 @@ void BMP180::read_pressure() {
   _reading_parameter = none;
 }
 
-int32_t BMP180::get_pressure() {
+void BMP180::measure() {
   if (_initialized) {
     switch (_reading_parameter) {
     case temperature:
@@ -132,6 +132,9 @@ int32_t BMP180::get_pressure() {
       }
     }
   }
+}
+
+int32_t BMP180::get_pascals() {
   return _pressure.pascals;
 }
 

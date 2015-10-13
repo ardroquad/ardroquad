@@ -92,7 +92,8 @@ public:
   virtual void initialize();
   virtual const String id() const;
   virtual const String debug_info() const;
-  virtual int32_t get_pressure();
+  virtual void measure();
+  virtual int32_t get_pascals();
 };
 
 }

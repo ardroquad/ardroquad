@@ -29,7 +29,7 @@ const String HMC5883::id() const {
   return s;
 }
 
-void HMC5883::update() {
+void HMC5883::measure() {
   I2C::read_3x16(__I2C_address, __register_XYZ, _values.X, _values.Y, _values.Z);
 }
 

@@ -14,6 +14,7 @@ public:
   virtual const String id() const;
   const String id_divider() const;
   virtual const String debug_info() const = 0;
+  virtual void measure() = 0;
 };
 
 }

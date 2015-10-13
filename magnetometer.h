@@ -1,4 +1,4 @@
-#ifndef _magnetomenter_h_
+#ifndef _magnetometer_h_
 #define _magnetometer_h_
 
 #include "orientation.h"

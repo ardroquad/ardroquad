@@ -39,16 +39,10 @@ int32_t orientation::Z() const {
   return _values.Z;
 }
 
-void orientation::set_correction_X(const int32_t correction) {
-  _correction.X = correction;
-}
-
-void orientation::set_correction_Y(const int32_t correction) {
-  _correction.Y = correction;
-}
-
-void orientation::set_correction_Z(const int32_t correction) {
-  _correction.Z = correction;
+void orientation::set_correction(const int32_t X, const int32_t Y, const int32_t Z) {
+  _correction.X = X;
+  _correction.Y = Y;
+  _correction.Z = Z;
 }
 
 void orientation::correct() {

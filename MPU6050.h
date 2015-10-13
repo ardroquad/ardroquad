@@ -28,7 +28,7 @@ private:
 public:
   virtual void initialize();
   virtual const String id() const;
-  virtual void update();
+  virtual void measure();
 };
 
 }
@@ -55,7 +55,7 @@ public:
   MPU6050();
   virtual void initialize();
   virtual const String id() const;
-  virtual void update();
+  virtual void measure();
 };
 
 }

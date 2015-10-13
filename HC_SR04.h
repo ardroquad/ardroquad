@@ -17,7 +17,6 @@ private:
   static const uint8_t __interrupt_echo = 0;
   static const uint8_t __trigger_delay_LOW = 10;
   static const uint8_t __trigger_delay_HIGH = 20;
-  static double _distance_cm;
   static void echo();
 public:
   static uint64_t _echo_micros;
@@ -29,8 +28,7 @@ public:
   virtual void initialize();
   virtual const String id() const;
   virtual const String debug_info() const;
-  virtual double get_distance_cm() const;
-  bool measure();
+  virtual void measure();
 };
 
 }

@@ -32,7 +32,7 @@ public:
   const float Y_degrees();
   const float Z_degrees();
   virtual const String debug_info() const;
-  virtual void update();
+  virtual void measure();
 };
 
 }

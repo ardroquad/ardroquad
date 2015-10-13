@@ -52,7 +52,7 @@ const String accelerometer::debug_info() const {
   return s;
 }
 
-void accelerometer::update() {
+void accelerometer::measure() {
   double R = sqrt(_g.X * _g.X + _g.Y * _g.Y + _g.Z * _g.Z);
   _degrees.X = _g.X / R;
   _degrees.Y = _g.Y / R;

@@ -7,19 +7,26 @@
 
 #include "accelerometer.h"
 #include "gyroscope.h"
+#include "magnetometer.h"
 
+namespace stabilization {
 namespace IMU {
 
 class IMU {
   private:
     double _time_micros;
+  protected:
     sensor::orientation::accelerometer::accelerometer& _accelerometer;
     sensor::orientation::gyroscope::gyroscope& _gyroscope;
-  protected:
+    sensor::orientation::magnetometer::magnetometer& _magnetometer;
     double get_dt();
   public:
-  IMU(sensor::orientation::accelerometer::accelerometer& accelerometer, sensor::orientation::gyroscope::gyroscope& gyroscope);
+  IMU(sensor::orientation::accelerometer::accelerometer& accelerometer, sensor::orientation::gyroscope::gyroscope& gyroscope, sensor::orientation::magnetometer::magnetometer& magnetometer);
   virtual void iteration() = 0;
+  virtual const double E_X_degrees() = 0;
+  virtual const double E_Y_degrees() = 0;
+  virtual const double E_Z_degrees() = 0;
+  virtual const String debug_info();
 };
 
 class Kalman:
@@ -27,23 +34,30 @@ public IMU {
 private:
   class axis {
   private:
-    double _Q_angle;
-    double _Q_bias;
+    double _Q_degrees;
+    double _Q_dps_bias;
     double _R;
-    double _angle;
-    double _bias;
+    double _degrees;
+    double _dps_bias;
+    double _dps;
     double _P[2][2];
   public:
     axis();
+    void iteration(const double new_degrees, const double new_dps, const double dt);
+    const double E_degrees();
   };
   axis _X;
   axis _Y;
   axis _Z;
 public:
-  Kalman(sensor::orientation::accelerometer::accelerometer& accelerometer, sensor::orientation::gyroscope::gyroscope& gyroscope);
+  Kalman(sensor::orientation::accelerometer::accelerometer& accelerometer, sensor::orientation::gyroscope::gyroscope& gyroscope, sensor::orientation::magnetometer::magnetometer& magnetometer);
   virtual void iteration();
+  virtual const double E_X_degrees();
+  virtual const double E_Y_degrees();
+  virtual const double E_Z_degrees();
 };
 
+}
 }
 
 #endif

@@ -10,9 +10,12 @@ class sonar:
 public sensor {
 private:
   static const char* __id;
+protected:
+  static double _cm;
 public:
+  sonar();
   virtual const String id() const;
-  virtual double get_distance_cm() const = 0;
+  const double get_cm() const;
 };
 
 }

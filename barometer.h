@@ -13,7 +13,7 @@ private:
   static const char* __id;
 public:
   virtual const String id() const;
-  virtual int32_t get_pressure() = 0;
+  virtual int32_t get_pascals() = 0;
 };
 
 }
