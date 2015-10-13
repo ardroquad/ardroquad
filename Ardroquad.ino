@@ -9,6 +9,8 @@
 
 #define _DEBUG_
 
+const uint32_t _millis = 50;
+
 sensors::barometer::BMP180 barometer;
 sensors::orientation::accelerometer::MPU6050 accelerometer;
 sensors::orientation::gyroscope::MPU6050 gyroscope;
@@ -29,17 +31,27 @@ void setup() {
   gyroscope.set_correction_Z(16);
   sensors::orientation::magnetometer::MPU6050::I2C_bypass_mode();
   magnetometer.initialize();
+  sonar.initialize();
 }
 
 void loop() {
-  barometer.get_pressure();
-  accelerometer.update();
-  gyroscope.update();
-  magnetometer.update();
-//  Serial.println(barometer.debug_info());
-//  Serial.println(accelerometer.debug_info());
-  Serial.println(gyroscope.debug_info());
-//  Serial.println(magnetometer.debug_info());
-  delay(500);
+  uint64_t m = millis() / _millis;
+  while (true) {
+    if (m != millis() / _millis) {
+      m = millis() / _millis;
+      barometer.get_pressure();
+      accelerometer.update();
+      gyroscope.update();
+      magnetometer.update();
+      sonar.measure();
+//      Serial.println(barometer.debug_info());
+//      Serial.println(accelerometer.debug_info());
+//      Serial.println(gyroscope.debug_info());
+//      Serial.println(magnetometer.debug_info());
+      Serial.println(sonar.debug_info());
+//      Serial.println((double)sonar._echo_micros);
+//      Serial.println(sonar._interruption);
+    }
+  }
 }
 
