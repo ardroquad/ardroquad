@@ -2,7 +2,7 @@
 
 namespace IMU {
 
-IMU::IMU(sensors::orientation::accelerometer::accelerometer& accelerometer, sensors::orientation::gyroscope::gyroscope& gyroscope):
+IMU::IMU(sensor::orientation::accelerometer::accelerometer& accelerometer, sensor::orientation::gyroscope::gyroscope& gyroscope):
   _accelerometer(accelerometer),
   _gyroscope(gyroscope)
 {
@@ -27,7 +27,7 @@ Kalman::axis::axis() {
   _P[1][1] = 0;
 }
 
-Kalman::Kalman(sensors::orientation::accelerometer::accelerometer& accelerometer, sensors::orientation::gyroscope::gyroscope& gyroscope):
+Kalman::Kalman(sensor::orientation::accelerometer::accelerometer& accelerometer, sensor::orientation::gyroscope::gyroscope& gyroscope):
 IMU(accelerometer, gyroscope)
 {
 }

@@ -5,7 +5,7 @@
 #include "accelerometer.h"
 #include "gyroscope.h"
 
-namespace sensors {
+namespace sensor {
 namespace orientation {
 namespace accelerometer {
 
@@ -27,7 +27,7 @@ private:
   static const uint8_t __register_XYZ = 0x3B;
 public:
   virtual void initialize();
-  virtual const char* id() const;
+  virtual const String id() const;
   virtual void update();
 };
 
@@ -54,7 +54,7 @@ private:
 public:
   MPU6050();
   virtual void initialize();
-  virtual const char* id() const;
+  virtual const String id() const;
   virtual void update();
 };
 

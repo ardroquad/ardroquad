@@ -13,12 +13,12 @@ namespace IMU {
 class IMU {
   private:
     double _time_micros;
-    sensors::orientation::accelerometer::accelerometer& _accelerometer;
-    sensors::orientation::gyroscope::gyroscope& _gyroscope;
+    sensor::orientation::accelerometer::accelerometer& _accelerometer;
+    sensor::orientation::gyroscope::gyroscope& _gyroscope;
   protected:
     double get_dt();
   public:
-  IMU(sensors::orientation::accelerometer::accelerometer& accelerometer, sensors::orientation::gyroscope::gyroscope& gyroscope);
+  IMU(sensor::orientation::accelerometer::accelerometer& accelerometer, sensor::orientation::gyroscope::gyroscope& gyroscope);
   virtual void iteration() = 0;
 };
 
@@ -40,7 +40,7 @@ private:
   axis _Y;
   axis _Z;
 public:
-  Kalman(sensors::orientation::accelerometer::accelerometer& accelerometer, sensors::orientation::gyroscope::gyroscope& gyroscope);
+  Kalman(sensor::orientation::accelerometer::accelerometer& accelerometer, sensor::orientation::gyroscope::gyroscope& gyroscope);
   virtual void iteration();
 };
 

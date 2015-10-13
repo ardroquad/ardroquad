@@ -4,7 +4,7 @@
 #include <Arduino.h>
 #include "magnetometer.h"
 
-namespace sensors {
+namespace sensor {
 namespace orientation {
 namespace magnetometer {
 
@@ -33,7 +33,7 @@ private:
   static const uint8_t __register_XYZ = 0x3;
 public:
   virtual void initialize();
-  virtual const char* id() const;
+  virtual const String id() const;
   virtual void update();
 };
 

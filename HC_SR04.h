@@ -4,7 +4,7 @@
 #include <Arduino.h>
 #include "sonar.h"
 
-namespace sensors {
+namespace sensor {
 namespace sonar {
 
 class HC_SR04: 
@@ -27,8 +27,8 @@ public:
     waiting_LOW
   } _interruption;
   virtual void initialize();
-  virtual const char* id() const;
-  virtual String debug_info() const;
+  virtual const String id() const;
+  virtual const String debug_info() const;
   virtual double get_distance_cm() const;
   bool measure();
 };

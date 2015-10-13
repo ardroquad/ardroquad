@@ -1,10 +1,10 @@
 #include <Arduino.h>
 #include "HC_SR04.h"
 
-namespace sensors {
+namespace sensor {
 namespace sonar {
 
-const char* HC_SR04::__id = "HC_SR04/sonar";
+const char* HC_SR04::__id = "HC_SR04";
 uint64_t HC_SR04::_echo_micros = 0;
 HC_SR04::interruption HC_SR04::_interruption = released;
 double HC_SR04::_distance_cm = 0;
@@ -33,13 +33,15 @@ void HC_SR04::initialize() {
   pinMode(__pin_echo, INPUT);
 }
 
-const char* HC_SR04::id() const {
-  return __id;
+const String HC_SR04::id() const {
+  String s;
+  s += sonar::id(); s += id_divider(); s += __id;
+  return s;
 }
 
-String HC_SR04::debug_info() const {
+const String HC_SR04::debug_info() const {
   String s;
-  s += __id; s += ": distance(cm): "; s += _distance_cm;
+  s += id(); s += ": distance(cm): "; s += _distance_cm;
   return s;
 }
 

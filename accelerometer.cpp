@@ -1,8 +1,10 @@
 #include "accelerometer.h"
 
-namespace sensors {
+namespace sensor {
 namespace orientation {
 namespace accelerometer {
+
+const char* accelerometer::__id = "accelerometer";
 
 accelerometer::accelerometer() {
   _g.X = 0;
@@ -11,6 +13,12 @@ accelerometer::accelerometer() {
   _degrees.X = 0;
   _degrees.Y = 0;
   _degrees.Z = 0;
+}
+
+const String accelerometer::id() const {
+  String s;
+  s += orientation::id(); s += id_divider(); s += __id;
+  return s;
 }
 
 const float accelerometer::X_g() {
@@ -37,10 +45,10 @@ const float accelerometer::Z_degrees() {
   return _degrees.Z;
 }
 
-String accelerometer::debug_info() {
+const String accelerometer::debug_info() const {
   String s;
   s += orientation::debug_info();
-  s += ", X(g): "; s += _g.X; s += ", Y(g): "; s += _g.Y; s += ", Z(g): "; s += _g.Z; s += ", X(degrees): "; s += _degrees.X; s += ", Y(degrees): "; s += _degrees.Y; s += ", Z(degrees): "; s += _degrees.Z;
+  s += ", X(g): "; s += _g.X; s += ", Y(g): "; s += _g.Y; s += ", Z(g): "; s += _g.Z; s += ", X(d): "; s += _degrees.X; s += ", Y(d): "; s += _degrees.Y; s += ", Z(d): "; s += _degrees.Z;
   return s;
 }
 

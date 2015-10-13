@@ -3,14 +3,16 @@
 
 #include "orientation.h"
 
-namespace sensors {
+namespace sensor {
 namespace orientation {
 namespace magnetometer {
 
 class magnetometer: 
 public orientation {
-public:
 private:
+  static const char* __id;
+public:
+  virtual const String id() const;
 };
 
 }
@@ -18,6 +20,3 @@ private:
 }
 
 #endif
-
-
-

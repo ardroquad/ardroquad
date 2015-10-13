@@ -1,10 +1,9 @@
 #ifndef _BMP180_h_
 #define _BMP180_h_
 
-#include <Arduino.h>
 #include "barometer.h"
 
-namespace sensors {
+namespace sensor {
 namespace barometer {
 
 class BMP180: 
@@ -91,8 +90,8 @@ private:
 public:
   BMP180();
   virtual void initialize();
-  virtual const char* id() const;
-  virtual String debug_info() const;
+  virtual const String id() const;
+  virtual const String debug_info() const;
   virtual int32_t get_pressure();
 };
 

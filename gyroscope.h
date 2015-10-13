@@ -3,12 +3,14 @@
 
 #include "orientation.h"
 
-namespace sensors {
+namespace sensor {
 namespace orientation {
 namespace gyroscope {
 
 class gyroscope: 
 public orientation {
+private:
+  static const char* __id;
 protected:
   struct {
     double X;
@@ -17,6 +19,7 @@ protected:
   } _dps;
 public:
   gyroscope();
+  virtual const String id() const;
   const float X_dps();
   const float Y_dps();
   const float Z_dps();

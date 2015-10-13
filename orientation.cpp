@@ -1,8 +1,10 @@
 #include <Arduino.h>
 #include "orientation.h"
 
-namespace sensors {
+namespace sensor {
 namespace orientation {
+
+const char* orientation::__id = "orientation";
   
 orientation::orientation() {
   _values.X = 0;
@@ -13,7 +15,13 @@ orientation::orientation() {
   _correction.Z = 0;
 }
 
-String orientation::debug_info() const {
+const String orientation::id() const {
+  String s;
+  s += sensor::id(); s += id_divider(); s += __id;
+  return s;
+}
+
+const String orientation::debug_info() const {
   String s;
   s += id(); s += ": X: "; s += X(); s += ", Y: "; s += Y(); s += ", Z: "; s += Z();
   return s;

@@ -2,10 +2,10 @@
 #include "BMP180.h"
 #include "I2C.h"
 
-namespace sensors {
+namespace sensor {
 namespace barometer {
 
-const char* BMP180::__id = "BMP180/barometer";
+const char* BMP180::__id = "BMP180";
 
 const uint8_t BMP180::__UP_delays_read[4] = {
   __UP.delay_ultra_low_power,
@@ -38,13 +38,15 @@ void BMP180::initialize() {
   _initialized = true;
 }
 
-const char* BMP180::id() const {
-  return __id;
+const String BMP180::id() const {
+  String s;
+  s+= barometer::id(); s += sensor::id_divider(); s += __id;
+  return s;
 }
 
-String BMP180::debug_info() const {
+String const BMP180::debug_info() const {
   String s;
-  s += __id; s += ": t(C): "; s += _temperature.celsius / 10; s += "."; s += _temperature.celsius % 10; s += ",  p(Pa): "; s += _pressure.pascals; s += ", p(mmHg): "; s += (long)((float)_pressure.pascals / 133.3);
+  s += id(); s += ": t(C): "; s += _temperature.celsius / 10; s += "."; s += _temperature.celsius % 10; s += ",  p(Pa): "; s += _pressure.pascals; s += ", p(mmHg): "; s += (long)((float)_pressure.pascals / 133.3);
   return s;
 }
 

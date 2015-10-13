@@ -2,11 +2,11 @@
 #include "I2C.h"
 #include "MPU6050.h"
 
-namespace sensors {
+namespace sensor {
 namespace orientation {
 namespace accelerometer {
 
-const char* MPU6050::__id = "MPU6050/accelerometer";
+const char* MPU6050::__id = "MPU6050";
 const MPU6050::__full_scale_range_struct MPU6050::__full_scale_ranges[] = {
   {0x0, 2},
   {0x8, 4},
@@ -20,8 +20,10 @@ void MPU6050::initialize() {
   I2C::write_8(__I2C_address, __register_pwr_mgmt_1, __value_pwr_mgmt_1);
 }
 
-const char* MPU6050::id() const {
-  return __id;
+const String MPU6050::id() const {
+  String s;
+  s += accelerometer::id(); s += id_divider(); s += __id;
+  return s;
 }
 
 void MPU6050::update() {
@@ -36,7 +38,7 @@ void MPU6050::update() {
 }
 namespace gyroscope {
 
-const char* MPU6050::__id = "MPU6050/gyroscope";
+const char* MPU6050::__id = "MPU6050";
 const MPU6050::__full_scale_range_struct MPU6050::__full_scale_ranges[] = {
   {0x0, 250},
   {0x8, 500},
@@ -53,8 +55,10 @@ void MPU6050::initialize() {
   I2C::write_8(__I2C_address, __register_pwr_mgmt_1, __value_pwr_mgmt_1);
 }
 
-const char* MPU6050::id() const {
-  return __id;
+const String MPU6050::id() const {
+  String s;
+  s += gyroscope::id(); s += id_divider(); s += __id;
+  return s;
 }
 
 void MPU6050::update() {

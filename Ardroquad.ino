@@ -9,13 +9,13 @@
 
 #define _DEBUG_
 
-const uint32_t _millis = 50;
+const uint32_t _millis = 500;
 
-sensors::barometer::BMP180 barometer;
-sensors::orientation::accelerometer::MPU6050 accelerometer;
-sensors::orientation::gyroscope::MPU6050 gyroscope;
-sensors::orientation::magnetometer::HMC5883 magnetometer;
-sensors::sonar::HC_SR04 sonar;
+sensor::barometer::BMP180 barometer;
+sensor::orientation::accelerometer::MPU6050 accelerometer;
+sensor::orientation::gyroscope::MPU6050 gyroscope;
+sensor::orientation::magnetometer::HMC5883 magnetometer;
+sensor::sonar::HC_SR04 sonar;
 IMU::Kalman _IMU(accelerometer, gyroscope);
 
 void setup() {
@@ -29,7 +29,7 @@ void setup() {
   gyroscope.set_correction_X(17);
   gyroscope.set_correction_Y(-34);
   gyroscope.set_correction_Z(16);
-  sensors::orientation::magnetometer::MPU6050::I2C_bypass_mode();
+  sensor::orientation::magnetometer::MPU6050::I2C_bypass_mode();
   magnetometer.initialize();
   sonar.initialize();
 }
@@ -45,12 +45,10 @@ void loop() {
       magnetometer.update();
       sonar.measure();
 //      Serial.println(barometer.debug_info());
-//      Serial.println(accelerometer.debug_info());
+      Serial.println(accelerometer.debug_info());
 //      Serial.println(gyroscope.debug_info());
 //      Serial.println(magnetometer.debug_info());
-      Serial.println(sonar.debug_info());
-//      Serial.println((double)sonar._echo_micros);
-//      Serial.println(sonar._interruption);
+//      Serial.println(sonar.debug_info());
     }
   }
 }

@@ -4,11 +4,13 @@
 #include <Arduino.h>
 #include "sensor.h"
 
-namespace sensors {
+namespace sensor {
 namespace orientation {
 
-class orientation: 
+class orientation:
 public sensor {
+private:
+  static const char* __id;
 protected:
   struct {
     int32_t X;
@@ -24,7 +26,8 @@ protected:
   _correction;
 public:
   orientation();
-  virtual String debug_info() const;
+  virtual const String id() const;
+  virtual const String debug_info() const;
   virtual void update() = 0;
   void set_correction_X(const int32_t correction);
   void set_correction_Y(const int32_t correction);

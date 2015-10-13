@@ -2,7 +2,7 @@
 #include "I2C.h"
 #include "HMC5883.h"
 
-namespace sensors {
+namespace sensor {
 namespace orientation {
 namespace magnetometer {
 namespace MPU6050 {
@@ -22,8 +22,11 @@ void HMC5883::initialize() {
   I2C::write_8(__I2C_address, __register_mode, __value_mode);
 }
 
-const char* HMC5883::id() const {
-  return __id;
+const String HMC5883::id() const {
+  String s;
+
+  s += magnetometer::id(); s += sensor::id_divider(); s += __id;
+  return s;
 }
 
 void HMC5883::update() {

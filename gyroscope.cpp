@@ -1,13 +1,21 @@
 #include "gyroscope.h"
 
-namespace sensors {
+namespace sensor {
 namespace orientation {
 namespace gyroscope {
+
+const char* gyroscope::__id = "gyroscope";
 
 gyroscope::gyroscope() {
   _dps.X = 0;
   _dps.Y = 0;
   _dps.Z = 0;
+}
+
+const String gyroscope::id() const {
+  String s;
+  s += orientation::id(); s += id_divider(); s += __id;
+  return s;
 }
 
 const float gyroscope::X_dps() {
