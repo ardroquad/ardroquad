@@ -24,9 +24,9 @@ const String IMU::debug_info() {
 }
 
 Kalman::axis::axis() {
-  _Q_degrees = 0;
-  _Q_dps_bias = 0;
-  _R = 0;
+  _Q_degrees = 0.001;
+  _Q_dps_bias = 0.003;
+  _R = 0.03;
   _degrees = 0;
   _dps_bias = 0;
   _dps = 0;

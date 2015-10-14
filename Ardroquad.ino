@@ -43,7 +43,7 @@ void loop() {
   if (tm / _millis != millis() / _millis) {
 //    Serial.println(barometer.debug_info());
 //    Serial.println(accelerometer.debug_info());
-    Serial.println(gyroscope.debug_info());
+//    Serial.println(gyroscope.debug_info());
 //    Serial.println(magnetometer.debug_info());
 //    Serial.println(sonar.debug_info());
     Serial.println(IMU.debug_info());
