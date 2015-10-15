@@ -54,9 +54,9 @@ const String accelerometer::debug_info() const {
 
 void accelerometer::measure() {
   double R = sqrt(_g.X * _g.X + _g.Y * _g.Y + _g.Z * _g.Z);
-  _degrees.X = _g.X / R;
-  _degrees.Y = _g.Y / R;
-  _degrees.Z = _g.Z / R;
+  _degrees.X = acos(_g.X / R);
+  _degrees.Y = acos(_g.Y / R);
+  _degrees.Z = acos(_g.Z / R);
 }
 
 }

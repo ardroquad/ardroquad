@@ -33,24 +33,24 @@ class Kalman:
 public IMU {
 private:
   class axis {
-  private:
-    double _Q_degrees;
-    double _Q_dps_bias;
-    double _R;
-    double _degrees;
-    double _dps_bias;
-    double _dps;
-    double _P[2][2];
+  public:
+    float _Q_degrees;
+    float _Q_dps_bias;
+    float _R;
+    float _degrees;
+    float _dps_bias;
+    float _dps;
+    float _P[2][2];
   public:
     axis();
     void iteration(const double new_degrees, const double new_dps, const double dt);
     const double E_degrees();
   };
+public:
+  Kalman(sensor::orientation::accelerometer::accelerometer& accelerometer, sensor::orientation::gyroscope::gyroscope& gyroscope, sensor::orientation::magnetometer::magnetometer& magnetometer);
   axis _X;
   axis _Y;
   axis _Z;
-public:
-  Kalman(sensor::orientation::accelerometer::accelerometer& accelerometer, sensor::orientation::gyroscope::gyroscope& gyroscope, sensor::orientation::magnetometer::magnetometer& magnetometer);
   virtual void iteration();
   virtual const double E_X_degrees();
   virtual const double E_Y_degrees();

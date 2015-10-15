@@ -14,7 +14,7 @@ IMU::IMU(sensor::orientation::accelerometer::accelerometer& accelerometer, senso
 double IMU::get_dt() {
   double time_micros = _time_micros;
   _time_micros = micros();
-  return _time_micros - time_micros;
+  return (_time_micros - time_micros) / 1000000;
 }
 
 const String IMU::debug_info() {
@@ -43,16 +43,19 @@ void Kalman::axis::iteration(const double new_degrees, const double new_dps, con
   _P[0][1] -= dt * _P[1][1];
   _P[1][0] -= dt * _P[1][1];
   _P[1][1] += _Q_dps_bias * dt;
-  double S = _P[0][0] * _R;
-  double K_0 = _P[0][0] / S;
-  double K_1 = _P[1][0] / S;
-  double d = new_degrees - _degrees;
-  _degrees += K_0 * d;
+  float S = _P[0][0] * _R;
+  float K_0 = _P[0][0] / S;
+  float K_1 = _P[1][0] / S;
+  float d = new_degrees - _degrees;
+//  _degrees += K_0 * d;
+  _degrees = K_0 * d;
+/*
   _dps_bias += K_1 * d;
   _P[0][0] -= K_0 * _P[0][0];
   _P[0][1] -= K_1 * _P[0][1];
   _P[1][0] -= K_1 * _P[0][0];
   _P[1][1] -= K_1 * _P[0][1];
+*/
 }
 
 const double Kalman::axis::E_degrees() {
