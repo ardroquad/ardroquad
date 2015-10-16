@@ -33,14 +33,17 @@ class Kalman:
 public IMU {
 private:
   class axis {
-  public:
-    float _Q_degrees;
-    float _Q_dps_bias;
-    float _R;
-    float _degrees;
-    float _dps_bias;
-    float _dps;
-    float _P[2][2];
+  private:
+    double _Q_degrees;
+    double _Q_dps_bias;
+    double _R;
+    double _dps_bias;
+    double _dps;
+    double _degrees;
+    double _P_0_0;
+    double _P_0_1;
+    double _P_1_0;
+    double _P_1_1;
   public:
     axis();
     void iteration(const double new_degrees, const double new_dps, const double dt);
