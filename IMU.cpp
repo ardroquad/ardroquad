@@ -71,7 +71,7 @@ void Kalman::iteration() {
   double dt = get_dt();
   _X.iteration(_accelerometer.X_degrees(), _gyroscope.X_dps(), dt);
   _Y.iteration(_accelerometer.Y_degrees(), _gyroscope.Y_dps(), dt);
-  _Z.iteration(_accelerometer.Z_degrees(), _gyroscope.Z_dps(), dt);
+  _Z.iteration(atan2(_magnetometer.Y(), _magnetometer.X()) * 180 / M_PI, _gyroscope.Z_dps(), dt);
 }
 
 const double Kalman::E_X_degrees() {

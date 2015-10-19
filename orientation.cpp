@@ -23,7 +23,7 @@ const String orientation::id() const {
 
 const String orientation::debug_info() const {
   String s;
-  s += id(); s += ": X: "; s += X(); s += ", Y: "; s += Y(); s += ", Z: "; s += Z();
+  s += id(); s += ": X: "; s += X(); s += ", Y: "; s += Y(); s += ", Z: "; s += Z(); s += ", R: "; s += sqrt(X() * X() + Y() * Y() + Z() * Z());
   return s;
 }
 
