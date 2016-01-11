@@ -14,12 +14,12 @@ IMU::IMU(sensor::orientation::accelerometer::accelerometer& accelerometer, senso
 double IMU::get_dt() {
   double time_micros = _time_micros;
   _time_micros = micros();
-  return (_time_micros - time_micros) / 1000000;
+  return (_time_micros - time_micros) / (double)1000000;
 }
 
 const String IMU::debug_info() {
   String s;
-  s += "X(degrees): "; s += E_X_degrees(); s += ", Y(degrees): "; s += E_Y_degrees(); s += ", Z(degrees): "; s += E_Z_degrees();
+  s += "X: "; s += E_X_degrees(); s += ", Y: "; s += E_Y_degrees(); s += ", Z: "; s += E_Z_degrees();
   return s;
 }
 
@@ -38,7 +38,7 @@ Kalman::axis::axis() {
 
 void Kalman::axis::iteration(const double new_degrees, const double new_dps, const double dt) {
   _dps = new_dps - _dps_bias;
-  _degrees += dt * _dps;
+  _degrees += dt * (double)_dps;
   _P_0_0 += dt * (dt * _P_1_1 - _P_0_1 - _P_1_0 + _Q_degrees);
   _P_0_1 -= dt * _P_1_1;
   _P_1_0 -= dt * _P_1_1;
@@ -69,8 +69,8 @@ void Kalman::iteration() {
   _gyroscope.measure();
   _magnetometer.measure();
   double dt = get_dt();
-  _X.iteration(_accelerometer.X_degrees(), _gyroscope.X_dps(), dt);
-  _Y.iteration(_accelerometer.Y_degrees(), _gyroscope.Y_dps(), dt);
+  _X.iteration(_accelerometer.X_degrees(), -_gyroscope.Y_dps(), dt);
+  _Y.iteration(_accelerometer.Y_degrees(), _gyroscope.X_dps(), dt);
   _Z.iteration(atan2(_magnetometer.Y(), _magnetometer.X()) * 180 / M_PI, _gyroscope.Z_dps(), dt);
 }
 

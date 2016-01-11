@@ -50,7 +50,7 @@ MPU6050::MPU6050() {
 }
 
 void MPU6050::initialize() {
-  I2C::write_8(__I2C_address, __register_gyroscope_config, __value_gyroscope_config);
+  I2C::write_8(__I2C_address, __register_gyroscope_config, __full_scale_ranges[__full_scale_range].value_gyroscope_config);
   I2C::write_8(__I2C_address, __register_DLPF_config, __value_DLPF_config);
   I2C::write_8(__I2C_address, __register_pwr_mgmt_1, __value_pwr_mgmt_1);
 }
