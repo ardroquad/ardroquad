@@ -17,7 +17,7 @@ sensor::orientation::gyroscope::MPU6050 gyroscope;
 sensor::orientation::magnetometer::HMC5883 magnetometer;
 sensor::sonar::HC_SR04 sonar;
 stabilization::IMU::Kalman IMU(accelerometer, gyroscope, magnetometer);
-const uint32_t _millis = 500;
+const uint32_t _millis = 250;
 uint64_t _millis1 = 0;
 uint64_t _millis2 = 0;
 
@@ -29,7 +29,7 @@ void setup() {
   accelerometer.initialize();
   accelerometer.set_correction(0, 0, 225);
   gyroscope.initialize();
-  gyroscope.set_correction(90, -140, 55);
+  gyroscope.set_correction(150, -280, 120);
   sensor::orientation::magnetometer::MPU6050::I2C_bypass_mode();
   magnetometer.initialize();
   sonar.initialize();

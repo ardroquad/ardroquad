@@ -47,6 +47,7 @@ private:
   public:
     axis();
     void iteration(const double new_degrees, const double new_dps, const double dt);
+    void set(const double new_degrees);
     const double E_degrees();
   };
 public:
