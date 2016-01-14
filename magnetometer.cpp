@@ -12,6 +12,10 @@ const String magnetometer::id() const {
   return s;
 }
 
+void magnetometer::calibrate() {
+  
+}
+
 }
 }
 }

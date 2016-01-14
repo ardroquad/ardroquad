@@ -28,6 +28,7 @@ public:
   orientation();
   virtual const String id() const;
   virtual const String debug_info() const;
+  virtual void calibrate() = 0;
   void set_correction(const int32_t X, const int32_t Y, const int32_t Z);
   void correct();
   int32_t X() const;

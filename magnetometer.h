@@ -13,6 +13,7 @@ private:
   static const char* __id;
 public:
   virtual const String id() const;
+  virtual void calibrate();
 };
 
 }

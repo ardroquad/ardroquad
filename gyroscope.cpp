@@ -18,6 +18,20 @@ const String gyroscope::id() const {
   return s;
 }
 
+void gyroscope::calibrate() {
+  int32_t sum_X = 0;
+  int32_t sum_Y = 0;
+  int32_t sum_Z = 0;
+  for (uint16_t i = 0; i < __calibration_count; ++i) {
+    measure();
+    sum_X += X();
+    sum_Y += Y();
+    sum_Z += Z();
+    delay(__calibration_delay);
+  }
+  set_correction(-sum_X / __calibration_count, -sum_Y / __calibration_count, -sum_Z / __calibration_count);
+}
+
 const float gyroscope::X_dps() {
   return _dps.X;
 }

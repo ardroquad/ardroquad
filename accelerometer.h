@@ -25,6 +25,7 @@ protected:
 public:
   accelerometer();
   virtual const String id() const;
+  virtual void calibrate();
   const float X_g();
   const float Y_g();
   const float Z_g();

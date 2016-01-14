@@ -29,7 +29,8 @@ void setup() {
   accelerometer.initialize();
   accelerometer.set_correction(0, 0, 225);
   gyroscope.initialize();
-  gyroscope.set_correction(150, -280, 120);
+  gyroscope.calibrate();
+//  gyroscope.set_correction(150, -280, 120);
   sensor::orientation::magnetometer::MPU6050::I2C_bypass_mode();
   magnetometer.initialize();
   sonar.initialize();

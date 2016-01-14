@@ -21,6 +21,10 @@ const String accelerometer::id() const {
   return s;
 }
 
+void accelerometer::calibrate() {
+  
+}
+
 const float accelerometer::X_g() {
   return _g.X;
 }
