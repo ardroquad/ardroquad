@@ -27,7 +27,7 @@ void setup() {
   delay(1000);
   barometer.initialize();
   accelerometer.initialize();
-  accelerometer.set_correction(0, 0, 225);
+  accelerometer.set_correction(0, 0, 0);
   gyroscope.initialize();
   gyroscope.calibrate();
 //  gyroscope.set_correction(150, -280, 120);
