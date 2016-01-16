@@ -36,8 +36,8 @@ void setup() {
   sonar.initialize();
   CLI.println();
   CLI.println();
-  CLI.println("Calibration...");
-  magnetometer.calibrate();
+//  CLI.println("Calibration...");
+//  magnetometer.calibrate();
   CLI.println(magnetometer.calibrate_info());
 }
 
@@ -56,12 +56,12 @@ void loop() {
 //    CLI.println(barometer.debug_info());
 //    CLI.println(accelerometer.debug_info());
 //    CLI.println(gyroscope.debug_info());
-//    CLI.println(magnetometer.debug_info());
+    CLI.println(magnetometer.debug_info());
 //    CLI.println(sonar.debug_info());
     CLI.println(IMU.debug_info());
-//    String s;
-//    s += "X(c): "; s += IMU.X_corrected; s += ", Y(c): "; s += IMU.Y_corrected; s += ", Z(c): "; s += IMU.Z_corrected;
-//    CLI.println(s);
+    String s;
+    s += "X(c): "; s += IMU.X_corrected; s += ", Y(c): "; s += IMU.Y_corrected; s += ", Z(c): "; s += IMU.Z_corrected;
+    CLI.println(s);
     _millis1 = tm;
   }
 }
