@@ -26,7 +26,7 @@ const String MPU6050::id() const {
   return s;
 }
 
-void MPU6050::measure() {
+void MPU6050::measure(const bool calibration_flag) {
   I2C::read_3x16(__I2C_address, __register_XYZ, _values.X, _values.Y, _values.Z);
   correct();
   _g.X = (float)_values.X / (float)32767 * (float)__full_scale_ranges[__full_scale_range].max_g;
@@ -61,7 +61,7 @@ const String MPU6050::id() const {
   return s;
 }
 
-void MPU6050::measure() {
+void MPU6050::measure(const bool calibration_flag) {
   I2C::read_3x16(__I2C_address, __register_XYZ, _values.X, _values.Y, _values.Z);
   correct();
   _dps.X = (float)_values.X / (float)32767 * (float)__full_scale_ranges[__full_scale_range].max_degrees_per_second;

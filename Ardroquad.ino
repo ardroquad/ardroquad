@@ -1,6 +1,7 @@
 #include <Arduino.h>
 #include <Wire.h>
 #include <SoftwareSerial.h>
+#include <EEPROM.h>
 #include "LED.h"
 #include "BMP180.h"
 #include "MPU6050.h"
@@ -17,7 +18,7 @@ sensor::orientation::gyroscope::MPU6050 gyroscope;
 sensor::orientation::magnetometer::HMC5883 magnetometer;
 sensor::sonar::HC_SR04 sonar;
 stabilization::IMU::Kalman IMU(accelerometer, gyroscope, magnetometer);
-const uint32_t _millis = 250;
+const uint32_t _millis = 600;
 uint64_t _millis1 = 0;
 uint64_t _millis2 = 0;
 
@@ -33,6 +34,11 @@ void setup() {
   sensor::orientation::magnetometer::MPU6050::I2C_bypass_mode();
   magnetometer.initialize();
   sonar.initialize();
+  CLI.println();
+  CLI.println();
+  CLI.println("Calibration...");
+  magnetometer.calibrate();
+  CLI.println(magnetometer.calibrate_info());
 }
 
 void loop() {
@@ -54,7 +60,7 @@ void loop() {
 //    CLI.println(sonar.debug_info());
     CLI.println(IMU.debug_info());
 //    String s;
-//    s += "X(c): "; s += IMU.X_corrected; s += ", Y(c): "; s += IMU.Y_corrected; s += ", Z(c): "; s += IMU.Y_corrected;
+//    s += "X(c): "; s += IMU.X_corrected; s += ", Y(c): "; s += IMU.Y_corrected; s += ", Z(c): "; s += IMU.Z_corrected;
 //    CLI.println(s);
     _millis1 = tm;
   }

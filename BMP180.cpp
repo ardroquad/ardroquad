@@ -106,7 +106,7 @@ void BMP180::read_pressure() {
   _reading_parameter = none;
 }
 
-void BMP180::measure() {
+void BMP180::measure(const bool calibration_flag) {
   if (_initialized) {
     switch (_reading_parameter) {
     case temperature:

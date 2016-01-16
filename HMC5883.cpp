@@ -29,8 +29,16 @@ const String HMC5883::id() const {
   return s;
 }
 
-void HMC5883::measure() {
+void HMC5883::measure(const bool calibration_flag) {
   I2C::read_3x16(__I2C_address, __register_XYZ, _values.X, _values.Z, _values.Y);
+  if (calibration_flag) {
+    _values.X += _calibration.hard.X;
+    _values.Y += _calibration.hard.Y;
+    _values.Z += _calibration.hard.Z;
+    _values.X = (double)_values.X * _calibration.soft.X;
+    _values.Y = (double)_values.Y * _calibration.soft.Y;
+    _values.Z = (double)_values.Z * _calibration.soft.Z;
+  }
 }
 
 }

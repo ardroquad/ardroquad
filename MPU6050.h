@@ -28,7 +28,7 @@ private:
 public:
   virtual void initialize();
   virtual const String id() const;
-  virtual void measure();
+  virtual void measure(const bool calibration_flag = true);
 };
 
 }
@@ -54,7 +54,7 @@ public:
   MPU6050();
   virtual void initialize();
   virtual const String id() const;
-  virtual void measure();
+  virtual void measure(const bool calibration_flag = true);
 };
 
 }

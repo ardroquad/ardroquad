@@ -44,7 +44,7 @@ const String HC_SR04::debug_info() const {
   return s;
 }
 
-void HC_SR04::measure() {
+void HC_SR04::measure(const bool calibration_flag) {
   if (_interruption != released) {
     return;
   }
