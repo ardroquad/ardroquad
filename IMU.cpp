@@ -75,12 +75,12 @@ void Kalman::iteration() {
   double dt = get_dt();
   _X.iteration(_accelerometer.X_degrees(), -_gyroscope.Y_dps(), dt);
   _Y.iteration(_accelerometer.Y_degrees(), _gyroscope.X_dps(), dt);
-  double X = -(E_X_degrees() > 0 ? E_X_degrees() : 360 + E_X_degrees());
-  double Y = +(E_Y_degrees() > 0 ? E_Y_degrees() : 360 + E_Y_degrees());
-  double X_radians = X / (double)180 * M_PI;
-  double Y_radians = Y / (double)180 * M_PI;
-  double X_corrected = cos(X_radians) * _magnetometer.X() + sin(X_radians) * sin(Y_radians) * _magnetometer.Y() + sin(X_radians) * cos(Y_radians) * _magnetometer.Z();
-  double Y_corrected = cos(Y_radians) * _magnetometer.Y() - sin(Y_radians) * _magnetometer.Z();
+  double X = +(E_X_degrees() > 0 ? E_X_degrees() : 360 + E_X_degrees());
+  double Y = -(E_Y_degrees() > 0 ? E_Y_degrees() : 360 + E_Y_degrees());
+  double X_radians = X / 180 * M_PI;
+  double Y_radians = Y / 180 * M_PI;
+  X_corrected = cos(Y_radians) * _magnetometer.X() + sin(Y_radians) * sin(X_radians) * _magnetometer.Y() + sin(Y_radians) * cos(X_radians) * _magnetometer.Z();
+  Y_corrected = cos(X_radians) * _magnetometer.Y() - sin(X_radians) * _magnetometer.Z();
   _Z.set(atan2(-Y_corrected, X_corrected) * 180 / M_PI);
 }
 

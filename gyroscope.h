@@ -10,7 +10,7 @@ namespace gyroscope {
 class gyroscope: 
 public orientation {
 private:
-  static const uint8_t __calibration_count = 1000;
+  static const uint16_t __calibration_count = 1000;
   static const uint8_t __calibration_delay = 1;
   static const char* __id;
 protected:

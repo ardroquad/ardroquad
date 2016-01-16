@@ -30,7 +30,6 @@ void setup() {
   accelerometer.set_correction(0, 0, 0);
   gyroscope.initialize();
   gyroscope.calibrate();
-//  gyroscope.set_correction(150, -280, 120);
   sensor::orientation::magnetometer::MPU6050::I2C_bypass_mode();
   magnetometer.initialize();
   sonar.initialize();
@@ -54,6 +53,9 @@ void loop() {
 //    CLI.println(magnetometer.debug_info());
 //    CLI.println(sonar.debug_info());
     CLI.println(IMU.debug_info());
+//    String s;
+//    s += "X(c): "; s += IMU.X_corrected; s += ", Y(c): "; s += IMU.Y_corrected; s += ", Z(c): "; s += IMU.Y_corrected;
+//    CLI.println(s);
     _millis1 = tm;
   }
 }

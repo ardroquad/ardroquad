@@ -21,6 +21,8 @@ class IMU {
     sensor::orientation::magnetometer::magnetometer& _magnetometer;
     double get_dt();
   public:
+  double X_corrected;
+  double Y_corrected;
   IMU(sensor::orientation::accelerometer::accelerometer& accelerometer, sensor::orientation::gyroscope::gyroscope& gyroscope, sensor::orientation::magnetometer::magnetometer& magnetometer);
   virtual void iteration() = 0;
   virtual const double E_X_degrees() = 0;
